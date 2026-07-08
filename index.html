@@ -280,6 +280,7 @@
       z-index: 10;
     }
 
+    /* Tarjeta de presentación (efecto hover) */
     .puesto .tooltip-extra {
       display: none;
       font-size: 0.65rem;
@@ -320,6 +321,7 @@
       background: linear-gradient(180deg, #2a1f12, var(--tarjeta));
     }
 
+    /* Efecto visual para el usuario actual (brillo y confeti) */
     .puesto.mi-puesto {
       animation: glowPulse 1.5s ease-in-out infinite, confetiFloat 3s ease-in-out infinite;
       border: 2px solid #ffd700;
@@ -346,6 +348,7 @@
       }
     }
 
+    /* Indicadores de tendencia */
     .trend-up {
       color: #22c55e;
       font-weight: 700;
@@ -359,6 +362,7 @@
       font-weight: 700;
     }
 
+    /* Voto popular */
     .btn-votar {
       background: var(--acento-2);
       color: white;
@@ -381,6 +385,7 @@
       margin-left: 4px;
     }
 
+    /* Resto (4-6) */
     .resto {
       display: flex;
       flex-wrap: wrap;
@@ -428,14 +433,14 @@
       color: var(--texto-sec);
     }
 
-    /* ===== CHAT FLOTANTE (CON EMOJIS) ===== */
+    /* ===== CHAT FLOTANTE ===== */
     .chat-flotante {
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 999;
-      width: 320px;
-      max-height: 460px;
+      width: 300px;
+      max-height: 450px;
       background: var(--tarjeta);
       border: 1px solid var(--borde);
       border-radius: 16px;
@@ -454,31 +459,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      user-select: none;
-      flex-shrink: 0;
-    }
-    .chat-emoji-bar {
-      display: flex;
-      gap: 4px;
-      padding: 4px 8px;
-      flex-wrap: wrap;
-      background: var(--linea);
-      border-bottom: 1px solid var(--borde);
-      flex-shrink: 0;
-    }
-    .chat-emoji-bar .emoji-btn {
-      background: transparent;
-      border: none;
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 2px 4px;
-      border-radius: 4px;
-      transition: 0.15s;
-      line-height: 1.2;
-    }
-    .chat-emoji-bar .emoji-btn:hover {
-      background: rgba(0, 0, 0, 0.1);
-      transform: scale(1.2);
     }
     .chat-mensajes {
       padding: 10px;
@@ -494,7 +474,7 @@
       background: var(--linea);
       padding: 6px 10px;
       border-radius: 12px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       word-break: break-word;
     }
     .chat-mensaje .chat-usuario {
@@ -514,20 +494,15 @@
       gap: 6px;
       border-top: 1px solid var(--borde);
       background: var(--tarjeta);
-      flex-shrink: 0;
     }
     .chat-input-area input {
       flex: 1;
       border: 1px solid var(--borde);
       border-radius: 20px;
       padding: 6px 12px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       background: var(--tarjeta);
       color: var(--texto);
-    }
-    .chat-input-area input:focus {
-      outline: 2px solid var(--acento-2);
-      border-color: transparent;
     }
     .chat-input-area button {
       background: var(--acento-2);
@@ -538,11 +513,8 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .chat-input-area button:hover {
-      filter: brightness(1.1);
-    }
 
-    /* ===== BRACKET ===== */
+    /* ===== BRACKET (sin cambios relevantes) ===== */
     .bracket {
       display: flex;
       gap: 24px;
@@ -648,7 +620,7 @@
       display: flex;
     }
 
-    /* ===== TABLA DE APUESTAS ===== */
+    /* ===== TABLA DE APUESTAS (filtros) ===== */
     .filtros {
       display: grid;
       grid-template-columns: 1.2fr 1.1fr 1.3fr auto;
@@ -861,7 +833,7 @@
         height: 140px;
       }
       .chat-flotante {
-        width: 280px;
+        width: 260px;
         right: 10px;
         bottom: 10px;
       }
@@ -878,10 +850,12 @@
       }
     }
 
+    /* ===== OCULTAR ELEMENTOS DE TABLA ANTIGUA ===== */
     .tabla-posiciones {
       display: none;
     }
 
+    /* ===== SECCIÓN RECLAMOS ===== */
     .seccion-reclamos {
       text-align: center;
       margin: 50px 0 30px;
@@ -915,11 +889,13 @@
       color: var(--texto-sec);
       text-align: right;
       margin: 20px 0 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
     }
     .pie strong {
       color: var(--texto);
     }
 
+    /* Ajustes modo noche para scroll y bordes */
     body.night-mode .btn-recargar,
     body.night-mode .btn-night {
       background: #1e293b;
@@ -947,6 +923,7 @@
         </div>
       </div>
 
+      <!-- Contador regresivo -->
       <div class="countdown-container" style="margin-top: 12px;">
         <span class="countdown-titulo">⏳ Final del Mundial:</span>
         <div class="countdown-numeros" id="countdownDisplay">
@@ -1016,35 +993,15 @@
     <p class="pie"><strong>Aroa</strong> · Powered by <strong>LuigiBET (c)</strong></p>
   </div>
 
-  <!-- ===== CHAT FLOTANTE (CON EMOJIS) ===== -->
+  <!-- ===== CHAT FLOTANTE ===== -->
   <div class="chat-flotante" id="chatWidget">
     <div class="chat-header" id="chatToggle">
       <span>💬 Chat de la Polla</span>
-      <span id="chatArrow" style="font-size:0.8rem;">▼</span>
+      <span style="font-size:0.8rem;">▼</span>
     </div>
-    <div class="chat-emoji-bar">
-      <button class="emoji-btn" data-emoji="😊">😊</button>
-      <button class="emoji-btn" data-emoji="😂">😂</button>
-      <button class="emoji-btn" data-emoji="🔥">🔥</button>
-      <button class="emoji-btn" data-emoji="🎉">🎉</button>
-      <button class="emoji-btn" data-emoji="⚽">⚽</button>
-      <button class="emoji-btn" data-emoji="🏆">🏆</button>
-      <button class="emoji-btn" data-emoji="💪">💪</button>
-      <button class="emoji-btn" data-emoji="👏">👏</button>
-      <button class="emoji-btn" data-emoji="🍿">🍿</button>
-      <button class="emoji-btn" data-emoji="😎">😎</button>
-      <button class="emoji-btn" data-emoji="🤣">🤣</button>
-      <button class="emoji-btn" data-emoji="❤️">❤️</button>
-      <button class="emoji-btn" data-emoji="✨">✨</button>
-      <button class="emoji-btn" data-emoji="💀">💀</button>
-      <button class="emoji-btn" data-emoji="👀">👀</button>
-      <button class="emoji-btn" data-emoji="🙌">🙌</button>
-    </div>
-    <div class="chat-mensajes" id="chatMensajes">
-      <div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Cargando mensajes...</div>
-    </div>
+    <div class="chat-mensajes" id="chatMensajes"></div>
     <div class="chat-input-area">
-      <input type="text" id="chatInput" placeholder="Escribe un mensaje..." maxlength="200">
+      <input type="text" id="chatInput" placeholder="Escribe un mensaje..." maxlength="100">
       <button id="chatEnviar">Enviar</button>
     </div>
   </div>
@@ -1052,15 +1009,12 @@
   <script>
     (function() {
       // ================================================================
-      // 0. CONFIGURACIÓN
+      // 0. CONFIGURACIÓN DE LA FINAL (FECHA)
       // ================================================================
       const FINAL_DATE = new Date('2026-07-19T15:00:00Z').getTime();
 
-      // 🔥 CAMBIA ESTA URL POR LA QUE OBTENGAS AL DESPLEGAR EL SCRIPT MEJORADO
-      const CHAT_API_URL = 'https://script.google.com/macros/s/AKfycbz91F1v2gAdGJoWtqlFXb1fBEc-XkynXgGF0Dm4xgykM-egeCmOUHBZaPUaOwWrroz6eQ/exec'; // <--- REEMPLAZA ESTO
-
       // ================================================================
-      // 1. SISTEMA DE USUARIO Y VISITAS
+      // 1. SISTEMA DE USUARIO Y VISITAS (sin cambios importantes)
       // ================================================================
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-XI-wqSxdXUhDbRw0mGI_7vA29pfB92PY1KhqsyFFTmydCBQWY39ccQzo_6xWtbVTwg/exec';
       const STORAGE_KEY = 'usuario_actual_polla_mundial';
@@ -1179,7 +1133,7 @@
       }
 
       // ================================================================
-      // 2. TRADUCCIONES Y BANDERAS
+      // 2. TRADUCCIONES Y BANDERAS (igual)
       // ================================================================
       const traducciones = {
         "Mexico": "México",
@@ -1300,7 +1254,7 @@
       }
 
       // ================================================================
-      // 3. FIXTURE
+      // 3. FIXTURE (sin cambios)
       // ================================================================
       const API_URL = "https://worldcup26.ir/get/games";
 
@@ -1438,7 +1392,7 @@
       }
 
       // ================================================================
-      // 4. TABLA DE POSICIONES
+      // 4. TABLA DE POSICIONES (CON TODAS LAS NUEVAS FUNCIONALIDADES)
       // ================================================================
       const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
       const SHEET_NAME = "Tabla dinámica 6";
@@ -1447,8 +1401,8 @@
 
       let datosApuestas = [];
       let ordenApuestas = { columna: null, direccion: 'asc' };
-      let participantesActuales = [];
-      let prevTop6 = [];
+      let participantesActuales = []; // Guardar para el chat y votos
+      let prevTop6 = []; // Para tendencias
 
       async function obtenerDatosTabla() {
         try {
@@ -1551,6 +1505,7 @@
         return participantes;
       }
 
+      // ===== RENDERIZADO DEL PODIO (con todo integrado) =====
       function renderizarTabla(participantes) {
         const container = document.getElementById('tablaContainer');
         if (!container) return;
@@ -1560,10 +1515,14 @@
           return;
         }
 
+        // Guardar estado actual para tendencias
         const currentTop6 = participantes.slice(0, 6).map(p => ({ ...p }));
         const usuarioActual = localStorage.getItem(STORAGE_KEY);
+
+        // Cargar votos almacenados
         let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
 
+        // Calcular tendencias comparando con prevTop6
         const trends = {};
         if (prevTop6.length > 0) {
           const prevMap = {};
@@ -1575,10 +1534,11 @@
               else if (p.puntos < prevPts) trends[p.nombre] = 'down';
               else trends[p.nombre] = 'stable';
             } else {
-              trends[p.nombre] = 'up';
+              trends[p.nombre] = 'up'; // nuevo en top
             }
           });
         }
+        // Guardar para la próxima comparación
         prevTop6 = currentTop6.map(p => ({ ...p }));
 
         const top6 = participantes.slice(0, 6);
@@ -1606,22 +1566,28 @@
           if (trend === 'up') { trendSymbol = '📈';
             trendClass = 'trend-up'; } else if (trend === 'down') { trendSymbol = '📉';
             trendClass = 'trend-down'; }
+
           const votosCount = votos[p.nombre] || 0;
+
           html += `<div class="puesto ${clases[idx]} ${esMiPuesto ? 'mi-puesto' : ''}">`;
           html += `<div class="medalla">${medallas[idx]}</div>`;
           html += `<div class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></div>`;
           html += `<div class="puntos">${p.puntos} pts</div>`;
           html += `<div class="estadisticas">Aciertos: ${p.aciertos} · Exactos: ${p.exactos}</div>`;
+          // Tooltip de presentación (hover)
           html += `<div class="tooltip-extra">🔹 Efectividad: ${p.aciertos > 0 ? Math.round((p.exactos/p.aciertos)*100) : 0}% · 🔸 Partidos: ${p.aciertos + (p.exactos || 0)}</div>`;
+          // Copa al primero
           if (pos === 1) {
             html += `<div class="copa">🏆</div>`;
           }
+          // Voto popular
           html +=
             `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ Votar <span class="votos-count">(${votosCount})</span></button>`;
           html += `</div>`;
         });
         html += `</div>`;
 
+        // Resto (4,5,6)
         if (resto.length > 0) {
           html += `<div class="resto">`;
           resto.forEach((p, index) => {
@@ -1649,6 +1615,7 @@
         html += `</div>`;
         container.innerHTML = html;
 
+        // Asignar eventos a los botones de votar
         container.querySelectorAll('.btn-votar').forEach(btn => {
           btn.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1657,13 +1624,14 @@
             let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
             votos[nombre] = (votos[nombre] || 0) + 1;
             localStorage.setItem('poll_votos', JSON.stringify(votos));
+            // Re-renderizar para actualizar contadores
             renderizarTabla(participantesActuales);
           });
         });
       }
 
       // ================================================================
-      // 5. WIDGET EN VIVO
+      // 5. WIDGET EN VIVO (igual)
       // ================================================================
       function obtenerPartidosEnVivo(todos) {
         const vivos = todos.filter(p => {
@@ -1718,123 +1686,61 @@
       setInterval(actualizarWidgetEnVivo, 30000);
 
       // ================================================================
-      // 6. CHAT GLOBAL (VERSIÓN MEJORADA CON VERIFICACIÓN)
+      // 6. CHAT DE LA POLLA (localStorage)
       // ================================================================
-      async function cargarChatGlobal() {
+      function cargarChat() {
         const container = document.getElementById('chatMensajes');
         if (!container) return;
-
-        try {
-          const response = await fetch(`${CHAT_API_URL}?action=get`);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          const data = await response.json();
-
-          container.innerHTML = '';
-          // Si la respuesta es un objeto con error o no es un array, mostrar mensaje
-          if (data.error) {
-            container.innerHTML =
-              `<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error del servidor: ${data.error}</div>`;
-            return;
-          }
-          if (!Array.isArray(data) || data.length === 0) {
-            container.innerHTML =
-              '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
-            return;
-          }
-
-          const ultimos = data.slice(-30);
-          ultimos.forEach(msg => {
-            if (!msg.usuario && !msg.texto) return;
-            const div = document.createElement('div');
-            div.className = 'chat-mensaje';
-            const hora = msg.timestamp ? msg.timestamp.substring(11, 16) : '';
-            div.innerHTML =
-              `<span class="chat-usuario">${escapeHtml(msg.usuario)}</span> ${escapeHtml(msg.texto)} <span class="chat-hora">${hora}</span>`;
-            container.appendChild(div);
-          });
-          container.scrollTop = container.scrollHeight;
-        } catch (error) {
-          console.error('Error al cargar mensajes:', error);
+        let messages = JSON.parse(localStorage.getItem('poll_chat') || '[]');
+        container.innerHTML = '';
+        if (messages.length === 0) {
           container.innerHTML =
-            '<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error al cargar el chat. Reintentando...</div>';
+            '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
+          return;
         }
+        messages.slice(-30).forEach(msg => {
+          const div = document.createElement('div');
+          div.className = 'chat-mensaje';
+          const hora = new Date(msg.timestamp).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+          div.innerHTML =
+            `<span class="chat-usuario">${escapeHtml(msg.usuario)}</span> ${escapeHtml(msg.texto)} <span class="chat-hora">${hora}</span>`;
+          container.appendChild(div);
+        });
+        container.scrollTop = container.scrollHeight;
       }
 
-      async function enviarMensajeGlobal(texto) {
+      function enviarMensaje(texto) {
         const usuario = localStorage.getItem(STORAGE_KEY) || 'Anónimo';
         if (!texto.trim()) return;
-
-        const input = document.getElementById('chatInput');
-        const btn = document.getElementById('chatEnviar');
-        btn.disabled = true;
-        input.disabled = true;
-
-        try {
-          // Ya no usamos mode: 'no-cors' para poder leer la respuesta
-          const response = await fetch(CHAT_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usuario, texto: texto.trim() })
-          });
-          const result = await response.json();
-          if (result.success) {
-            input.value = '';
-            setTimeout(cargarChatGlobal, 300);
-          } else {
-            alert('Error al enviar: ' + (result.error || 'Desconocido'));
-          }
-        } catch (error) {
-          console.error('Error al enviar mensaje:', error);
-          alert('No se pudo enviar el mensaje. Verifica tu conexión y que el script esté desplegado.');
-        } finally {
-          btn.disabled = false;
-          input.disabled = false;
-          input.focus();
-        }
+        let messages = JSON.parse(localStorage.getItem('poll_chat') || '[]');
+        messages.push({ usuario, texto: texto.trim(), timestamp: Date.now() });
+        if (messages.length > 100) messages = messages.slice(-100);
+        localStorage.setItem('poll_chat', JSON.stringify(messages));
+        cargarChat();
+        document.getElementById('chatInput').value = '';
       }
 
-      function configurarChatGlobal() {
+      function configurarChat() {
         const input = document.getElementById('chatInput');
         const btn = document.getElementById('chatEnviar');
         const toggle = document.getElementById('chatToggle');
-        const arrow = document.getElementById('chatArrow');
+        const widget = document.getElementById('chatWidget');
         const mensajesDiv = document.getElementById('chatMensajes');
-        const inputArea = document.querySelector('.chat-input-area');
-        const emojiBar = document.querySelector('.chat-emoji-bar');
 
-        // Selector de emojis
-        document.querySelectorAll('.emoji-btn').forEach(emojiBtn => {
-          emojiBtn.addEventListener('click', function() {
-            const emoji = this.dataset.emoji;
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            const text = input.value;
-            input.value = text.substring(0, start) + emoji + text.substring(end);
-            input.focus();
-            const newPos = start + emoji.length;
-            input.setSelectionRange(newPos, newPos);
-          });
-        });
-
-        btn.addEventListener('click', () => enviarMensajeGlobal(input.value));
+        btn.addEventListener('click', () => enviarMensaje(input.value));
         input.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') enviarMensajeGlobal(input.value);
+          if (e.key === 'Enter') enviarMensaje(input.value);
         });
 
         let chatVisible = true;
         toggle.addEventListener('click', () => {
           chatVisible = !chatVisible;
           mensajesDiv.style.display = chatVisible ? 'flex' : 'none';
-          inputArea.style.display = chatVisible ? 'flex' : 'none';
-          emojiBar.style.display = chatVisible ? 'flex' : 'none';
-          arrow.textContent = chatVisible ? '▼' : '▲';
-          if (chatVisible) {
-            setTimeout(cargarChatGlobal, 200);
-          }
+          document.querySelector('.chat-input-area').style.display = chatVisible ? 'flex' : 'none';
+          toggle.querySelector('span:last-child').textContent = chatVisible ? '▼' : '▲';
         });
-
-        cargarChatGlobal();
-        setInterval(cargarChatGlobal, 5000);
+        cargarChat();
+        setInterval(cargarChat, 5000); // Auto-refresh
       }
 
       // ================================================================
@@ -1857,7 +1763,7 @@
       actualizarContador();
 
       // ================================================================
-      // 8. MODO NOCHE
+      // 8. MODO NOCHE DE FINAL
       // ================================================================
       function toggleNightMode() {
         document.body.classList.toggle('night-mode');
@@ -1867,11 +1773,12 @@
         } else {
           btn.textContent = '🌙 Modo Noche Final';
         }
+        // Forzar re-render para actualizar colores de las tarjetas (ya que usan variables CSS)
       }
       document.getElementById('btnNightMode').addEventListener('click', toggleNightMode);
 
       // ================================================================
-      // 9. APUESTAS
+      // 9. DETALLE DE APUESTAS (sin cambios relevantes)
       // ================================================================
       const SHEET_APUESTAS = "Apuestas_16avos";
       const APUESTAS_URL =
@@ -2135,7 +2042,7 @@
           const data = parseCSV(csv);
           if (!data || data.length === 0) throw new Error(`No se encontraron datos.`);
           const participantes = ordenarParticipantes(data);
-          participantesActuales = participantes;
+          participantesActuales = participantes; // guardar para re-render
           estadoDiv.textContent = `✅ ${participantes.length} participantes cargados (mostrando top 6).`;
           estadoDiv.className = 'estado-carga exito';
           renderizarTabla(participantes);
@@ -2161,10 +2068,11 @@
       iniciarSistemaUsuario();
       inicializarTodo();
       document.getElementById('btnRecargar').addEventListener('click', inicializarTodo);
-      configurarChatGlobal();
+      configurarChat();
 
+      // Actualizar tabla cada 20 segundos para "podio en vivo"
       setInterval(() => {
-        if (document.getElementById('bloque-tabla').offsetParent !== null) {
+        if (document.getElementById('bloque-tabla').offsetParent !== null) { // visible
           cargarTabla();
         }
       }, 20000);
