@@ -914,7 +914,7 @@
     }
   </style>
 </head>
-<body>
+<body class="night-mode"> <!-- MODO NOCHE POR DEFECTO -->
   <div class="contenedor">
 
     <!-- ===== CABECERA ===== -->
@@ -925,7 +925,7 @@
           <p class="subtitulo">Fixture y tabla de posiciones en vivo</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="btn-night" id="btnNightMode">🌙 Modo Noche Final</button>
+          <button class="btn-night" id="btnNightMode">☀️ Modo Día</button> <!-- Inicia en noche, muestra "Modo Día" -->
         </div>
       </div>
 
@@ -1782,17 +1782,36 @@
       actualizarContador();
 
       // ================================================================
-      // 8. MODO NOCHE DE FINAL
+      // 8. MODO NOCHE/DÍA CON PERSISTENCIA
       // ================================================================
       function toggleNightMode() {
-        document.body.classList.toggle('night-mode');
+        const body = document.body;
+        body.classList.toggle('night-mode');
+        const isNight = body.classList.contains('night-mode');
+        localStorage.setItem('poll_night_mode', isNight ? 'true' : 'false');
         const btn = document.getElementById('btnNightMode');
-        if (document.body.classList.contains('night-mode')) {
-          btn.textContent = '☀️ Modo Día';
-        } else {
-          btn.textContent = '🌙 Modo Noche Final';
-        }
+        btn.textContent = isNight ? '☀️ Modo Día' : '🌙 Modo Noche Final';
       }
+
+      function inicializarModo() {
+        const saved = localStorage.getItem('poll_night_mode');
+        let isNight = true; // Por defecto, noche
+        if (saved !== null) {
+          isNight = saved === 'true';
+        } else {
+          // Si no hay preferencia guardada, establecemos noche por defecto y guardamos
+          localStorage.setItem('poll_night_mode', 'true');
+        }
+        const body = document.body;
+        if (isNight) {
+          body.classList.add('night-mode');
+        } else {
+          body.classList.remove('night-mode');
+        }
+        const btn = document.getElementById('btnNightMode');
+        btn.textContent = isNight ? '☀️ Modo Día' : '🌙 Modo Noche Final';
+      }
+
       document.getElementById('btnNightMode').addEventListener('click', toggleNightMode);
 
       // ================================================================
@@ -2084,6 +2103,7 @@
       // 11. INICIO
       // ================================================================
       iniciarSistemaUsuario();
+      inicializarModo(); // Se ejecuta antes de cargar los datos para evitar parpadeos
       inicializarTodo();
       document.getElementById('btnRecargar').addEventListener('click', inicializarTodo);
       configurarChat();
