@@ -346,13 +346,12 @@
       text-align: center;
       border-top: 6px solid #ccc;
       transition: transform 0.2s;
-      overflow: hidden; /* evita desbordes */
-      word-break: break-word; /* permite que el texto largo envuelva */
+      overflow: hidden;
+      word-break: break-word;
     }
     .puesto:hover {
       transform: scale(1.02);
     }
-    /* Alturas más escalonadas */
     .puesto-1 {
       height: 240px;
       border-top-color: #ffd700;
@@ -402,7 +401,6 @@
       line-height: 1;
     }
 
-    /* Resto (puestos 4-6) */
     .resto {
       display: flex;
       flex-wrap: wrap;
@@ -443,7 +441,6 @@
       color: #64748b;
     }
 
-    /* ===== TABLA DE POSICIONES (ya no se usa tabla, se reemplazó por podio) ===== */
     .tabla-posiciones {
       display: none;
     }
@@ -581,7 +578,6 @@
       color: #ffffff;
     }
 
-    /* ===== MEDIA QUERIES PARA MÓVILES ===== */
     @media (max-width: 700px) {
       .usuario-actual {
         font-size: 12px;
@@ -634,7 +630,6 @@
       }
     }
 
-    /* Filtros y tabla de apuestas */
     .filtros {
       display: grid;
       grid-template-columns: 1.2fr 1.1fr 1.3fr auto;
@@ -1252,10 +1247,10 @@
         if (a.exactos !== b.exactos) return b.exactos - a.exactos;
         return a.inscripcion - b.inscripcion;
       });
-      return participantes; // devolvemos todos, pero renderizaremos solo los primeros 6
+      return participantes;
     }
 
-    // ===== NUEVA FUNCIÓN RENDERIZAR TABLA (PODIO) =====
+    // ===== FUNCIÓN RENDERIZAR TABLA (PODIO) CON COPA EN EL PRIMER LUGAR =====
     function renderizarTabla(participantes) {
       const container = document.getElementById('tablaContainer');
       if (!container) return;
@@ -1264,22 +1259,18 @@
         return;
       }
 
-      // Tomar solo los primeros 6
       const top6 = participantes.slice(0, 6);
       if (top6.length === 0) {
         container.innerHTML = `<p style="padding: 20px; text-align: center; color: #64748b;">No hay suficientes participantes.</p>`;
         return;
       }
 
-      // Separar podio (3) y resto (3)
       const podio = top6.slice(0, 3);
       const resto = top6.slice(3);
 
       let html = `<div class="podio-container">`;
-      // Podio
       html += `<div class="podio">`;
-      // Orden: 2do, 1ro, 3ro
-      const ordenPodio = [podio[1], podio[0], podio[2]]; // [2do, 1ro, 3ro]
+      const ordenPodio = [podio[1], podio[0], podio[2]];
       const clases = ['puesto-2', 'puesto-1', 'puesto-3'];
       const medallas = ['🥈', '🥇', '🥉'];
       ordenPodio.forEach((p, idx) => {
@@ -1290,14 +1281,14 @@
         html += `<div class="nombre">${p.nombre}</div>`;
         html += `<div class="puntos">${p.puntos} pts</div>`;
         html += `<div class="estadisticas">Aciertos: ${p.aciertos} · Exactos: ${p.exactos}</div>`;
-        if (pos === 3) {
+        // 🔥 CAMBIO AQUÍ: la copa se muestra en el PRIMER lugar
+        if (pos === 1) {
           html += `<div class="copa">🏆</div>`;
         }
         html += `</div>`;
       });
-      html += `</div>`; // fin podio
+      html += `</div>`;
 
-      // Resto (4,5,6)
       if (resto.length > 0) {
         html += `<div class="resto">`;
         resto.forEach((p, index) => {
@@ -1312,7 +1303,7 @@
         html += `</div>`;
       }
 
-      html += `</div>`; // fin podio-container
+      html += `</div>`;
       container.innerHTML = html;
     }
 
