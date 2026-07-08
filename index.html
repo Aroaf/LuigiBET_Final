@@ -144,7 +144,7 @@
       background: var(--linea);
     }
 
-    /* Contador regresivo - MEJORADO PARA MÓVIL */
+    /* Contador regresivo - MEJORADO PARA MÓVIL Y COLORES CLAROS */
     .countdown-container {
       display: flex;
       align-items: center;
@@ -172,21 +172,25 @@
       flex-wrap: wrap;
       align-items: center;
     }
+    /* Bloques del contador con fondo claro y texto oscuro */
     .countdown-numeros span {
-      background: var(--acento-2);
-      color: white;
+      background: #f1f5f9; /* gris muy claro */
+      color: #0f172a; /* texto oscuro */
       padding: 2px 8px;
       border-radius: 6px;
       min-width: 36px;
       text-align: center;
+      border: 1px solid #d1d5db; /* borde suave para contraste */
     }
     body.night-mode .countdown-numeros span {
-      background: #fbbf24;
-      color: #0f172a;
+      background: #475569; /* gris oscuro */
+      color: #f1f5f9; /* texto claro */
+      border-color: #64748b;
     }
     .countdown-numeros .sep {
       font-weight: 700;
-      color: var(--texto-sec);
+      color: var(--texto);
+      margin: 0 1px;
     }
 
     /* ===== BLOQUES GENERALES ===== */
@@ -1673,8 +1677,13 @@
           const messages = await response.json();
           container.innerHTML = '';
           if (!messages || messages.length === 0) {
-            container.innerHTML =
-              '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
+            container.innerHTML = `
+              <div style="text-align:center; padding:20px 10px;">
+                <div style="font-size:1.5rem; margin-bottom:8px;">👋</div>
+                <div style="font-weight:600; color:var(--acento-2);">¡Bienvenido al chat de la Polla 2026!</div>
+                <div style="font-size:0.85rem; color:var(--texto-sec); margin-top:4px;">Comparte tus predicciones, ánimo y celebra con nosotros.</div>
+                <div style="font-size:0.75rem; color:var(--texto-sec); margin-top:8px;">¡Sé el primero en enviar un mensaje!</div>
+              </div>`;
             return;
           }
           const messagesToShow = messages.slice(-30);
