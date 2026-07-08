@@ -1036,7 +1036,7 @@
       const STORAGE_KEY = 'usuario_actual_polla_mundial';
 
       // 🔥 CAMBIA ESTA URL POR LA DE TU SCRIPT DE CHAT
-      const CHAT_API_URL = 'https://script.google.com/macros/s/AKfycbzSDe8kjDttD_eaKOL2COulf4sIK2S2M881wLzuhPnrom2vFSuIQS7h_Oajua1xEp3rtw/exec';
+      const CHAT_API_URL = 'https://script.google.com/macros/s/AKfycbx9ugtFYEjz84Xrf3wZNltMgqGDS4fSriq7tbakAEGpTmYw8GZWNXKYjMhirBSScux2Gg/exec';
 
       const LISTA_PARTICIPANTES = [
         'Invitado',
@@ -1679,31 +1679,39 @@
       setInterval(actualizarWidgetEnVivo, 30000);
 
       // ================================================================
-      // 6. CHAT GLOBAL (con emojis y corrección)
+      // 6. CHAT GLOBAL (corregido)
       // ================================================================
       async function cargarChatGlobal() {
         const container = document.getElementById('chatMensajes');
         if (!container) return;
-
+      
         try {
+          // Quitamos mode: 'no-cors' para poder leer la respuesta
           const response = await fetch(`${CHAT_API_URL}?action=get`);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          
           const data = await response.json();
-
+          
+          // Verificar si la respuesta tiene error
+          if (data && data.error) {
+            console.error('Error del servidor:', data.error);
+            container.innerHTML = `<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error: ${data.error}</div>`;
+            return;
+          }
+      
           container.innerHTML = '';
-          if (!data || data.length === 0 || (data.error)) {
+          
+          // Si no hay mensajes o no es un array
+          if (!data || !Array.isArray(data) || data.length === 0) {
             container.innerHTML = '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
             return;
           }
-
-          // Asegurar que data es un array
-          const messages = Array.isArray(data) ? data : [];
-          const ultimos = messages.slice(-30);
-          if (ultimos.length === 0) {
-            container.innerHTML = '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
-            return;
-          }
-
+      
+          // Mostrar los últimos 30 mensajes
+          const ultimos = data.slice(-30);
           ultimos.forEach(msg => {
             if (!msg.usuario && !msg.texto) return;
             const div = document.createElement('div');
@@ -1713,12 +1721,50 @@
             container.appendChild(div);
           });
           container.scrollTop = container.scrollHeight;
+          
         } catch (error) {
           console.error('Error al cargar mensajes:', error);
-          container.innerHTML = '<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error al cargar el chat. Reintentando...</div>';
+          container.innerHTML = `<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error al cargar el chat: ${error.message}</div>`;
+        }
+      }
+      
+      async function enviarMensajeGlobal(texto) {
+        const usuario = localStorage.getItem(STORAGE_KEY) || 'Anónimo';
+        if (!texto.trim()) return;
+      
+        const input = document.getElementById('chatInput');
+        const btn = document.getElementById('chatEnviar');
+        btn.disabled = true;
+        input.disabled = true;
+      
+        try {
+          // Quitamos mode: 'no-cors' para poder leer la respuesta
+          const response = await fetch(CHAT_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usuario, texto: texto.trim() })
+          });
+      
+          const data = await response.json();
+          
+          if (data && data.success) {
+            input.value = '';
+            setTimeout(cargarChatGlobal, 300);
+          } else {
+            throw new Error(data?.error || 'Error desconocido');
+          }
+          
+        } catch (error) {
+          console.error('Error al enviar mensaje:', error);
+          alert(`No se pudo enviar el mensaje: ${error.message}`);
+        } finally {
+          btn.disabled = false;
+          input.disabled = false;
+          input.focus();
         }
       }
 
+      
       async function enviarMensajeGlobal(texto) {
         const usuario = localStorage.getItem(STORAGE_KEY) || 'Anónimo';
         if (!texto.trim()) return;
