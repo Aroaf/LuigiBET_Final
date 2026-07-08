@@ -1009,12 +1009,18 @@
   <script>
     (function() {
       // ================================================================
+      // CONFIGURACIÓN DE LA APLICACIÓN WEB
+      // ¡¡¡CAMBIAR ESTA URL POR LA QUE OBTENGAS DE GOOGLE APPS SCRIPT!!!
+      // ================================================================
+      const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgHfoRy141RekNQ2MUFnLOeL6c5kwm52_57l9PiLSboNkvNB4_VjzoAy30EUL-VWtHxA/exec'; // <--- CAMBIAR ESTA URL
+
+      // ================================================================
       // 0. CONFIGURACIÓN DE LA FINAL (FECHA)
       // ================================================================
       const FINAL_DATE = new Date('2026-07-19T15:00:00Z').getTime();
 
       // ================================================================
-      // 1. SISTEMA DE USUARIO Y VISITAS (sin cambios importantes)
+      // 1. SISTEMA DE USUARIO Y VISITAS
       // ================================================================
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-XI-wqSxdXUhDbRw0mGI_7vA29pfB92PY1KhqsyFFTmydCBQWY39ccQzo_6xWtbVTwg/exec';
       const STORAGE_KEY = 'usuario_actual_polla_mundial';
@@ -1133,7 +1139,7 @@
       }
 
       // ================================================================
-      // 2. TRADUCCIONES Y BANDERAS (igual)
+      // 2. TRADUCCIONES Y BANDERAS
       // ================================================================
       const traducciones = {
         "Mexico": "México",
@@ -1178,8 +1184,8 @@
         "Norway": "Noruega",
         "Senegal": "Senegal",
         "Austria": "Austria",
-        "Argentina": "Argentina",
         "Jordan": "Jordania",
+        "Argentina": "Argentina",
         "Algeria": "Argelia",
         "Uzbekistan": "Uzbekistán",
         "Portugal": "Portugal",
@@ -1254,7 +1260,7 @@
       }
 
       // ================================================================
-      // 3. FIXTURE (sin cambios)
+      // 3. FIXTURE
       // ================================================================
       const API_URL = "https://worldcup26.ir/get/games";
 
@@ -1392,7 +1398,7 @@
       }
 
       // ================================================================
-      // 4. TABLA DE POSICIONES (CON TODAS LAS NUEVAS FUNCIONALIDADES)
+      // 4. TABLA DE POSICIONES
       // ================================================================
       const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
       const SHEET_NAME = "Tabla dinámica 6";
@@ -1401,8 +1407,8 @@
 
       let datosApuestas = [];
       let ordenApuestas = { columna: null, direccion: 'asc' };
-      let participantesActuales = []; // Guardar para el chat y votos
-      let prevTop6 = []; // Para tendencias
+      let participantesActuales = [];
+      let prevTop6 = [];
 
       async function obtenerDatosTabla() {
         try {
@@ -1505,7 +1511,6 @@
         return participantes;
       }
 
-      // ===== RENDERIZADO DEL PODIO (con todo integrado) =====
       function renderizarTabla(participantes) {
         const container = document.getElementById('tablaContainer');
         if (!container) return;
@@ -1515,14 +1520,10 @@
           return;
         }
 
-        // Guardar estado actual para tendencias
         const currentTop6 = participantes.slice(0, 6).map(p => ({ ...p }));
         const usuarioActual = localStorage.getItem(STORAGE_KEY);
-
-        // Cargar votos almacenados
         let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
 
-        // Calcular tendencias comparando con prevTop6
         const trends = {};
         if (prevTop6.length > 0) {
           const prevMap = {};
@@ -1534,11 +1535,10 @@
               else if (p.puntos < prevPts) trends[p.nombre] = 'down';
               else trends[p.nombre] = 'stable';
             } else {
-              trends[p.nombre] = 'up'; // nuevo en top
+              trends[p.nombre] = 'up';
             }
           });
         }
-        // Guardar para la próxima comparación
         prevTop6 = currentTop6.map(p => ({ ...p }));
 
         const top6 = participantes.slice(0, 6);
@@ -1574,20 +1574,16 @@
           html += `<div class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></div>`;
           html += `<div class="puntos">${p.puntos} pts</div>`;
           html += `<div class="estadisticas">Aciertos: ${p.aciertos} · Exactos: ${p.exactos}</div>`;
-          // Tooltip de presentación (hover)
           html += `<div class="tooltip-extra">🔹 Efectividad: ${p.aciertos > 0 ? Math.round((p.exactos/p.aciertos)*100) : 0}% · 🔸 Partidos: ${p.aciertos + (p.exactos || 0)}</div>`;
-          // Copa al primero
           if (pos === 1) {
             html += `<div class="copa">🏆</div>`;
           }
-          // Voto popular
           html +=
             `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ Votar <span class="votos-count">(${votosCount})</span></button>`;
           html += `</div>`;
         });
         html += `</div>`;
 
-        // Resto (4,5,6)
         if (resto.length > 0) {
           html += `<div class="resto">`;
           resto.forEach((p, index) => {
@@ -1615,7 +1611,6 @@
         html += `</div>`;
         container.innerHTML = html;
 
-        // Asignar eventos a los botones de votar
         container.querySelectorAll('.btn-votar').forEach(btn => {
           btn.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1624,14 +1619,13 @@
             let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
             votos[nombre] = (votos[nombre] || 0) + 1;
             localStorage.setItem('poll_votos', JSON.stringify(votos));
-            // Re-renderizar para actualizar contadores
             renderizarTabla(participantesActuales);
           });
         });
       }
 
       // ================================================================
-      // 5. WIDGET EN VIVO (igual)
+      // 5. WIDGET EN VIVO
       // ================================================================
       function obtenerPartidosEnVivo(todos) {
         const vivos = todos.filter(p => {
@@ -1686,45 +1680,73 @@
       setInterval(actualizarWidgetEnVivo, 30000);
 
       // ================================================================
-      // 6. CHAT DE LA POLLA (localStorage)
+      // 6. CHAT DE LA POLLA (CONECTADO A GOOGLE SHEETS)
       // ================================================================
-      function cargarChat() {
+      async function cargarChat() {
         const container = document.getElementById('chatMensajes');
         if (!container) return;
-        let messages = JSON.parse(localStorage.getItem('poll_chat') || '[]');
-        container.innerHTML = '';
-        if (messages.length === 0) {
+        try {
+          const response = await fetch(WEB_APP_URL);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const messages = await response.json();
+          container.innerHTML = '';
+          if (!messages || messages.length === 0) {
+            container.innerHTML =
+              '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
+            return;
+          }
+          // Mostrar los últimos 30 mensajes (los más recientes abajo)
+          const messagesToShow = messages.slice(-30);
+          messagesToShow.forEach(msg => {
+            const div = document.createElement('div');
+            div.className = 'chat-mensaje';
+            const hora = msg.Hora || '';
+            const usuario = msg.Usuario || 'Anónimo';
+            const texto = msg.Mensaje || '';
+            div.innerHTML =
+              `<span class="chat-usuario">${escapeHtml(usuario)}</span> ${escapeHtml(texto)} <span class="chat-hora">${hora}</span>`;
+            container.appendChild(div);
+          });
+          container.scrollTop = container.scrollHeight;
+        } catch (error) {
+          console.error('Error al cargar el chat:', error);
           container.innerHTML =
-            '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
-          return;
+            '<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error al cargar los mensajes.</div>';
         }
-        messages.slice(-30).forEach(msg => {
-          const div = document.createElement('div');
-          div.className = 'chat-mensaje';
-          const hora = new Date(msg.timestamp).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
-          div.innerHTML =
-            `<span class="chat-usuario">${escapeHtml(msg.usuario)}</span> ${escapeHtml(msg.texto)} <span class="chat-hora">${hora}</span>`;
-          container.appendChild(div);
-        });
-        container.scrollTop = container.scrollHeight;
       }
 
-      function enviarMensaje(texto) {
+      async function enviarMensaje(texto) {
         const usuario = localStorage.getItem(STORAGE_KEY) || 'Anónimo';
         if (!texto.trim()) return;
-        let messages = JSON.parse(localStorage.getItem('poll_chat') || '[]');
-        messages.push({ usuario, texto: texto.trim(), timestamp: Date.now() });
-        if (messages.length > 100) messages = messages.slice(-100);
-        localStorage.setItem('poll_chat', JSON.stringify(messages));
-        cargarChat();
-        document.getElementById('chatInput').value = '';
+
+        const mensajeData = {
+          usuario: usuario,
+          mensaje: texto.trim()
+        };
+
+        try {
+          const response = await fetch(WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Necesario para evitar problemas de CORS
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(mensajeData),
+          });
+          // Con 'no-cors', no podemos leer la respuesta, pero el mensaje se guarda.
+          // Vaciamos el input y recargamos el chat para ver el nuevo mensaje.
+          document.getElementById('chatInput').value = '';
+          await cargarChat();
+        } catch (error) {
+          console.error('Error al enviar mensaje:', error);
+          alert('No se pudo enviar el mensaje. Inténtalo de nuevo.');
+        }
       }
 
       function configurarChat() {
         const input = document.getElementById('chatInput');
         const btn = document.getElementById('chatEnviar');
         const toggle = document.getElementById('chatToggle');
-        const widget = document.getElementById('chatWidget');
         const mensajesDiv = document.getElementById('chatMensajes');
 
         btn.addEventListener('click', () => enviarMensaje(input.value));
@@ -1739,8 +1761,10 @@
           document.querySelector('.chat-input-area').style.display = chatVisible ? 'flex' : 'none';
           toggle.querySelector('span:last-child').textContent = chatVisible ? '▼' : '▲';
         });
+
+        // Cargar mensajes al inicio y cada 5 segundos
         cargarChat();
-        setInterval(cargarChat, 5000); // Auto-refresh
+        setInterval(cargarChat, 5000);
       }
 
       // ================================================================
@@ -1773,12 +1797,11 @@
         } else {
           btn.textContent = '🌙 Modo Noche Final';
         }
-        // Forzar re-render para actualizar colores de las tarjetas (ya que usan variables CSS)
       }
       document.getElementById('btnNightMode').addEventListener('click', toggleNightMode);
 
       // ================================================================
-      // 9. DETALLE DE APUESTAS (sin cambios relevantes)
+      // 9. DETALLE DE APUESTAS
       // ================================================================
       const SHEET_APUESTAS = "Apuestas_16avos";
       const APUESTAS_URL =
@@ -2042,7 +2065,7 @@
           const data = parseCSV(csv);
           if (!data || data.length === 0) throw new Error(`No se encontraron datos.`);
           const participantes = ordenarParticipantes(data);
-          participantesActuales = participantes; // guardar para re-render
+          participantesActuales = participantes;
           estadoDiv.textContent = `✅ ${participantes.length} participantes cargados (mostrando top 6).`;
           estadoDiv.className = 'estado-carga exito';
           renderizarTabla(participantes);
@@ -2070,9 +2093,8 @@
       document.getElementById('btnRecargar').addEventListener('click', inicializarTodo);
       configurarChat();
 
-      // Actualizar tabla cada 20 segundos para "podio en vivo"
       setInterval(() => {
-        if (document.getElementById('bloque-tabla').offsetParent !== null) { // visible
+        if (document.getElementById('bloque-tabla').offsetParent !== null) {
           cargarTabla();
         }
       }, 20000);
