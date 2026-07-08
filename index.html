@@ -23,6 +23,7 @@
       transition: all 0.3s ease;
     }
 
+    /* ========== MODO NOCHE DE FINAL ========== */
     body.night-mode {
       --fondo-cielo: #0a0f1a;
       --fondo-cancha: #0a1f1a;
@@ -39,6 +40,7 @@
       --bg-gradient: radial-gradient(ellipse at center, #0f172a 0%, #020617 100%);
     }
 
+    /* Fondo dinámico con movimiento */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: var(--texto);
@@ -57,6 +59,7 @@
       100% { background-position: 100% 100%; }
     }
 
+    /* Efecto de luces de estadio en modo noche */
     body.night-mode::before {
       content: '';
       position: fixed;
@@ -64,8 +67,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 40%),
-                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.03) 0%, transparent 40%);
+      background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
       pointer-events: none;
       z-index: 0;
       animation: spotlightMove 10s infinite alternate;
@@ -85,6 +88,7 @@
       z-index: 1;
     }
 
+    /* ===== CABECERA CON CONTADOR ===== */
     .cabecera {
       background: var(--tarjeta);
       border: 1px solid var(--borde);
@@ -132,6 +136,7 @@
       background: var(--linea);
     }
 
+    /* Contador regresivo */
     .countdown-container {
       display: flex;
       align-items: center;
@@ -170,6 +175,7 @@
       color: #0f172a;
     }
 
+    /* ===== BLOQUES GENERALES ===== */
     .bloque {
       background: var(--tarjeta);
       border: 1px solid var(--borde);
@@ -293,6 +299,7 @@
       border-top-color: #cd7f32;
       background: linear-gradient(180deg, #f5e6d3, var(--tarjeta));
     }
+
     body.night-mode .puesto-1 {
       background: linear-gradient(180deg, #2a2410, var(--tarjeta));
     }
@@ -310,7 +317,7 @@
     }
     @keyframes glowPulse {
       0%, 100% { box-shadow: 0 0 20px var(--glow-color); }
-      50% { box-shadow: 0 0 50px var(--glow-color), 0 0 80px rgba(255,215,0,0.3); }
+      50% { box-shadow: 0 0 50px var(--glow-color), 0 0 80px rgba(255, 215, 0, 0.3); }
     }
     @keyframes confetiFloat {
       0% { transform: translateY(0px) rotate(0deg); }
@@ -397,8 +404,8 @@
       bottom: 20px;
       right: 20px;
       z-index: 999;
-      width: 340px;
-      max-height: 500px;
+      width: 320px;
+      max-height: 480px;
       background: var(--tarjeta);
       border: 1px solid var(--borde);
       border-radius: 16px;
@@ -419,7 +426,13 @@
       align-items: center;
       flex-shrink: 0;
     }
-    .emoji-panel {
+    .chat-header span:last-child {
+      transition: transform 0.3s;
+    }
+    .chat-header .chat-collapsed {
+      transform: rotate(180deg);
+    }
+    .chat-emoji-bar {
       display: flex;
       gap: 4px;
       padding: 4px 8px;
@@ -427,32 +440,30 @@
       background: var(--linea);
       border-bottom: 1px solid var(--borde);
       flex-shrink: 0;
-      max-height: 80px;
-      overflow-y: auto;
     }
-    .emoji-btn {
-      background: none;
+    .chat-emoji-bar .emoji-btn {
+      background: transparent;
       border: none;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
       padding: 2px 4px;
       border-radius: 4px;
-      transition: 0.2s;
-      line-height: 1;
+      transition: 0.15s;
+      line-height: 1.2;
     }
-    .emoji-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
+    .chat-emoji-bar .emoji-btn:hover {
+      background: rgba(0,0,0,0.1);
       transform: scale(1.2);
     }
     .chat-mensajes {
       padding: 10px;
       overflow-y: auto;
       flex: 1;
-      max-height: 280px;
+      max-height: 300px;
       background: var(--tarjeta);
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       min-height: 60px;
     }
     .chat-mensaje {
@@ -461,11 +472,6 @@
       border-radius: 12px;
       font-size: 0.85rem;
       word-break: break-word;
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .chat-mensaje .chat-usuario {
       font-weight: 700;
@@ -495,6 +501,10 @@
       background: var(--tarjeta);
       color: var(--texto);
     }
+    .chat-input-area input:focus {
+      outline: 2px solid var(--acento-2);
+      border-color: transparent;
+    }
     .chat-input-area button {
       background: var(--acento-2);
       color: white;
@@ -503,7 +513,6 @@
       padding: 6px 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s;
     }
     .chat-input-area button:hover {
       filter: brightness(1.1);
@@ -542,7 +551,7 @@
       border: 1px solid var(--borde);
       border-radius: 8px;
       padding: 4px 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       font-size: 0.75rem;
       display: flex;
       flex-direction: column;
@@ -632,7 +641,7 @@
       color: var(--texto);
     }
     .filtros input:focus, .filtros select:focus {
-      outline: 2px solid rgba(0,71,171,0.2);
+      outline: 2px solid rgba(0, 71, 171, 0.2);
       border-color: var(--acento-2);
     }
     .filtros button {
@@ -715,6 +724,7 @@
       border: 1px solid #bbf7d0;
     }
 
+    /* ===== USUARIO ACTUAL ===== */
     .usuario-actual {
       display: flex;
       align-items: center;
@@ -743,13 +753,14 @@
       color: #0f7a46;
     }
 
+    /* ===== MODAL ===== */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -763,7 +774,7 @@
       width: 90%;
       max-width: 400px;
       text-align: center;
-      box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
     }
     .modal-content h2 {
       margin-top: 0;
@@ -803,6 +814,47 @@
       margin-top: 20px;
     }
 
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .podio {
+        gap: 10px;
+      }
+      .puesto {
+        width: 100px;
+        padding: 8px 6px 6px;
+      }
+      .puesto-1 {
+        height: 200px;
+      }
+      .puesto-2 {
+        height: 160px;
+      }
+      .puesto-3 {
+        height: 140px;
+      }
+      .chat-flotante {
+        width: 280px;
+        right: 10px;
+        bottom: 10px;
+        max-height: 400px;
+      }
+      .filtros {
+        grid-template-columns: 1fr !important;
+      }
+      .countdown-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .cabecera .accion {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .tabla-posiciones {
+      display: none;
+    }
+
     .seccion-reclamos {
       text-align: center;
       margin: 50px 0 30px;
@@ -831,31 +883,14 @@
     .seccion-reclamos .btn-reclamo:hover {
       background-color: #003380;
     }
-
     .pie {
       font-size: 12px;
       color: var(--texto-sec);
       text-align: right;
       margin: 20px 0 0;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.25);
     }
     .pie strong {
       color: var(--texto);
-    }
-
-    .tabla-posiciones { display: none; }
-
-    @media (max-width: 700px) {
-      .podio { gap: 10px; }
-      .puesto { width: 100px; padding: 8px 6px 6px; }
-      .puesto-1 { height: 200px; }
-      .puesto-2 { height: 160px; }
-      .puesto-3 { height: 140px; }
-      .chat-flotante { width: 280px; right: 10px; bottom: 10px; max-height: 400px; }
-      .filtros { grid-template-columns: 1fr !important; }
-      .countdown-container { flex-direction: column; align-items: flex-start; }
-      .cabecera .accion { flex-direction: column; align-items: stretch; }
-      .emoji-panel { max-height: 60px; }
     }
 
     body.night-mode .btn-recargar,
@@ -871,1173 +906,1221 @@
   </style>
 </head>
 <body>
-<div class="contenedor">
+  <div class="contenedor">
 
-  <header class="cabecera">
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 10px;">
-      <div>
-        <h1>🏆 Mundial de Fútbol 2026</h1>
-        <p class="subtitulo">Fixture y tabla de posiciones en vivo</p>
-      </div>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn-night" id="btnNightMode">🌙 Modo Noche Final</button>
-      </div>
-    </div>
-
-    <div class="countdown-container" style="margin-top: 12px;">
-      <span class="countdown-titulo">⏳ Final del Mundial:</span>
-      <div class="countdown-numeros" id="countdownDisplay">
-        <span id="cd-dias">00</span>d
-        <span id="cd-horas">00</span>h
-        <span id="cd-minutos">00</span>m
-        <span id="cd-segundos">00</span>s
-      </div>
-    </div>
-
-    <div class="accion">
-      <button class="btn-recargar" id="btnRecargar">🔄 Recargar datos</button>
-    </div>
-    <div id="usuarioContainer"></div>
-  </header>
-
-  <div class='bloque' id='bloque-en-vivo' style='margin-bottom: 16px;'>
-    <h2>⚽ En vivo ahora</h2>
-    <div id='widget-en-vivo'><p style='color:var(--texto-sec); font-size:13px;'>Cargando...</p></div>
-  </div>
-
-  <div class='bloque' id='bloque-tabla'>
-    <h2>🏅 Tabla de Posiciones (Top 6) <span id="trend-indicators" style="font-size:0.8rem; font-weight:normal; color:var(--texto-sec);">📈 Tendencias en vivo</span></h2>
-    <div id="estadoCargaTabla" class="estado-carga">Cargando datos desde Google Sheets...</div>
-    <div id="tablaContainer"></div>
-  </div>
-
-  <details class='bloque bloque-colapsable' id='bloqueFixture'>
-    <summary>📋 Cuadro del torneo (Eliminación directa)</summary>
-    <div class='bloque-contenido'>
-      <div id="estadoCargaFixture" class="estado-carga">Cargando datos desde la API...</div>
-      <div id="bracketContainer" class="bracket"></div>
-    </div>
-  </details>
-
-  <details class='bloque bloque-colapsable' id='bloqueDetalleApuestas'>
-    <summary>Detalle completo de apuestas 🤑</summary>
-    <div class='bloque-contenido'>
-      <div class='filtros'>
-        <input id='filtroTextoApuestas' type='text' placeholder='Buscar texto en la tabla'>
-        <select id='filtroParticipanteApuestas'>
-          <option value='todos'>Todos los participantes</option>
-        </select>
-        <select id='filtroRondaApuestas'>
-          <option value='todos'>Todas las rondas</option>
-        </select>
-        <select id='filtroPartidoApuestas'>
-          <option value='todos'>Todos los partidos</option>
-        </select>
-        <button id='limpiarFiltrosApuestas' type='button'>Limpiar</button>
-      </div>
-      <div class='estado' id='estadoFiltradoApuestas'></div>
-      <div id='tablaApuestasContainer'></div>
-    </div>
-  </details>
-
-  <section class="seccion-reclamos">
-    <h2>¿Tienes algún reclamo?</h2>
-    <p></p>
-    <a href="https://www.fifa.com/es/contact" target="_blank" class="btn-reclamo">Ir</a>
-  </section>
-  <p class="pie"><strong>Aroa</strong> · Powered by <strong>LuigiBET (c)</strong></p>
-</div>
-
-<!-- ===== CHAT FLOTANTE CON EMOJIS ===== -->
-<div class="chat-flotante" id="chatWidget">
-  <div class="chat-header" id="chatToggle">
-    <span>💬 Chat de la Polla</span>
-    <span style="font-size:0.8rem;">▼</span>
-  </div>
-  <div class="emoji-panel">
-    <button class="emoji-btn" data-emoji="😊">😊</button>
-    <button class="emoji-btn" data-emoji="😂">😂</button>
-    <button class="emoji-btn" data-emoji="🔥">🔥</button>
-    <button class="emoji-btn" data-emoji="🎉">🎉</button>
-    <button class="emoji-btn" data-emoji="⚽">⚽</button>
-    <button class="emoji-btn" data-emoji="🏆">🏆</button>
-    <button class="emoji-btn" data-emoji="💪">💪</button>
-    <button class="emoji-btn" data-emoji="👏">👏</button>
-    <button class="emoji-btn" data-emoji="🍿">🍿</button>
-    <button class="emoji-btn" data-emoji="😎">😎</button>
-    <button class="emoji-btn" data-emoji="🤣">🤣</button>
-    <button class="emoji-btn" data-emoji="❤️">❤️</button>
-    <button class="emoji-btn" data-emoji="✨">✨</button>
-    <button class="emoji-btn" data-emoji="💀">💀</button>
-    <button class="emoji-btn" data-emoji="👀">👀</button>
-    <button class="emoji-btn" data-emoji="🙌">🙌</button>
-    <button class="emoji-btn" data-emoji="👻">👻</button>
-    <button class="emoji-btn" data-emoji="💯">💯</button>
-    <button class="emoji-btn" data-emoji="🤯">🤯</button>
-    <button class="emoji-btn" data-emoji="🥳">🥳</button>
-  </div>
-  <div class="chat-mensajes" id="chatMensajes">
-    <div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Cargando mensajes...</div>
-  </div>
-  <div class="chat-input-area">
-    <input type="text" id="chatInput" placeholder="Escribe un mensaje..." maxlength="200">
-    <button id="chatEnviar">Enviar</button>
-  </div>
-</div>
-
-<script>
-  (function() {
-    // ================================================================
-    // CONFIGURACIÓN
-    // ================================================================
-    const FINAL_DATE = new Date('2026-07-19T15:00:00Z').getTime();
-    // 🔥 CAMBIA ESTA URL POR LA DE TU SCRIPT DESPLEGADO
-    const CHAT_API_URL = 'https://script.google.com/macros/s/AKfycbxavwMd4pBzhtFURwJbe09zGa9Minsi3_xUKCEDcJXw1VZlXeGoLrQ-ysPMgUabtMGM4A/exec';
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-XI-wqSxdXUhDbRw0mGI_7vA29pfB92PY1KhqsyFFTmydCBQWY39ccQzo_6xWtbVTwg/exec';
-    const STORAGE_KEY = 'usuario_actual_polla_mundial';
-
-    const LISTA_PARTICIPANTES = [
-      'Invitado', 'Ariel', 'Camilo', 'Carito', 'Claudio Padilla', 'Daniela',
-      'Diego Toledo', 'Felipe Bustos', 'Felipe HD', 'Grace', 'Karen Garrido',
-      'Lando', 'Leo', 'Marcelitocuerdas', 'Marrosquino', 'María Isabel',
-      'Miry', 'Pablo Meliqueo', 'Papasote ALV', 'Rocio', 'Rodrigo Arriaza',
-      'Sergio Luigi', 'Stuart'
-    ];
-
-    // ================================================================
-    // UTILIDADES
-    // ================================================================
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-
-    // ================================================================
-    // SISTEMA DE USUARIO
-    // ================================================================
-    async function registrarVisita(participante) {
-      if (!participante) return;
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ participante: participante })
-        });
-      } catch (err) { console.error(err); }
-    }
-
-    async function obtenerVisitas(participante) {
-      if (!participante) return 0;
-      try {
-        const url = `${SCRIPT_URL}?participante=${encodeURIComponent(participante)}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        return data.visitas || 0;
-      } catch (err) { return 0; }
-    }
-
-    function mostrarUsuarioActual(nombre) {
-      const container = document.getElementById('usuarioContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      if (!nombre) return;
-      const div = document.createElement('div');
-      div.className = 'usuario-actual';
-      div.innerHTML = `
-        <span>👤 <strong>${escapeHtml(nombre)}</strong></span>
-        <span class="visitas">👁️ Visitas: <span id="contadorValor">--</span></span>
-        <button class="btn-cambiar" id="btnCambiarUsuario">Cambiar usuario</button>
-      `;
-      container.appendChild(div);
-      obtenerVisitas(nombre).then(visitas => {
-        const span = document.getElementById('contadorValor');
-        if (span) span.textContent = visitas;
-      });
-      document.getElementById('btnCambiarUsuario')?.addEventListener('click', () => {
-        localStorage.removeItem(STORAGE_KEY);
-        mostrarModal();
-        container.innerHTML = '';
-      });
-    }
-
-    function mostrarModal() {
-      if (document.getElementById('modalLogin')) return;
-      const modal = document.createElement('div');
-      modal.id = 'modalLogin';
-      modal.className = 'modal-overlay';
-      modal.innerHTML = `
-        <div class="modal-content">
-          <h2>👋 Bienvenido a LuigiBET 2026</h2>
-          <p>Selecciona tu nombre para continuar:</p>
-          <select id="selectUsuario">
-            <option value="">-- Elige tu usuario --</option>
-            ${LISTA_PARTICIPANTES.map(p => `<option value="${p.replace(/"/g, '&quot;')}">${p}</option>`).join('')}
-          </select>
-          <button class="btn-ingresar" id="btnConfirmarUsuario">Ingresar</button>
-          <p class="nota">* Tus apuestas se mantendrán asociadas a este nombre.</p>
+    <!-- ===== CABECERA ===== -->
+    <header class="cabecera">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 10px;">
+        <div>
+          <h1>🏆 Mundial de Fútbol 2026</h1>
+          <p class="subtitulo">Fixture y tabla de posiciones en vivo</p>
         </div>
-      `;
-      document.body.appendChild(modal);
-      const btnConfirmar = document.getElementById('btnConfirmarUsuario');
-      const selectUsuario = document.getElementById('selectUsuario');
-      const seleccionar = async () => {
-        const nombre = selectUsuario.value;
-        if (nombre) {
-          localStorage.setItem(STORAGE_KEY, nombre);
-          await registrarVisita(nombre);
-          modal.remove();
-          mostrarUsuarioActual(nombre);
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-night" id="btnNightMode">🌙 Modo Noche Final</button>
+        </div>
+      </div>
+
+      <div class="countdown-container" style="margin-top: 12px;">
+        <span class="countdown-titulo">⏳ Final del Mundial:</span>
+        <div class="countdown-numeros" id="countdownDisplay">
+          <span id="cd-dias">00</span>d
+          <span id="cd-horas">00</span>h
+          <span id="cd-minutos">00</span>m
+          <span id="cd-segundos">00</span>s
+        </div>
+      </div>
+
+      <div class="accion">
+        <button class="btn-recargar" id="btnRecargar">🔄 Recargar datos</button>
+      </div>
+      <div id="usuarioContainer"></div>
+    </header>
+
+    <!-- ===== WIDGET EN VIVO ===== -->
+    <div class='bloque' id='bloque-en-vivo' style='margin-bottom: 16px;'>
+      <h2>⚽ En vivo ahora</h2>
+      <div id='widget-en-vivo'><p style='color:var(--texto-sec); font-size:13px;'>Cargando...</p></div>
+    </div>
+
+    <!-- ===== TABLA DE POSICIONES (PODIO) ===== -->
+    <div class='bloque' id='bloque-tabla'>
+      <h2>🏅 Tabla de Posiciones (Top 6) <span id="trend-indicators" style="font-size:0.8rem; font-weight:normal; color:var(--texto-sec);">📈 Tendencias en vivo</span></h2>
+      <div id="estadoCargaTabla" class="estado-carga">Cargando datos desde Google Sheets...</div>
+      <div id="tablaContainer"></div>
+    </div>
+
+    <!-- ===== CUADRO DEL TORNEO ===== -->
+    <details class='bloque bloque-colapsable' id='bloqueFixture'>
+      <summary>📋 Cuadro del torneo (Eliminación directa)</summary>
+      <div class='bloque-contenido'>
+        <div id="estadoCargaFixture" class="estado-carga">Cargando datos desde la API...</div>
+        <div id="bracketContainer" class="bracket"></div>
+      </div>
+    </details>
+
+    <!-- ===== DETALLE DE APUESTAS ===== -->
+    <details class='bloque bloque-colapsable' id='bloqueDetalleApuestas'>
+      <summary>Detalle completo de apuestas 🤑</summary>
+      <div class='bloque-contenido'>
+        <div class='filtros'>
+          <input id='filtroTextoApuestas' type='text' placeholder='Buscar texto en la tabla'>
+          <select id='filtroParticipanteApuestas'>
+            <option value='todos'>Todos los participantes</option>
+          </select>
+          <select id='filtroRondaApuestas'>
+            <option value='todos'>Todas las rondas</option>
+          </select>
+          <select id='filtroPartidoApuestas'>
+            <option value='todos'>Todos los partidos</option>
+          </select>
+          <button id='limpiarFiltrosApuestas' type='button'>Limpiar</button>
+        </div>
+        <div class='estado' id='estadoFiltradoApuestas'></div>
+        <div id='tablaApuestasContainer'></div>
+      </div>
+    </details>
+
+    <!-- SECCIÓN RECLAMOS -->
+    <section class="seccion-reclamos">
+      <h2>¿Tienes algún reclamo?</h2>
+      <p></p>
+      <a href="https://www.fifa.com/es/contact" target="_blank" class="btn-reclamo">Ir</a>
+    </section>
+    <p class="pie"><strong>Aroa</strong> · Powered by <strong>LuigiBET (c)</strong></p>
+  </div>
+
+  <!-- ===== CHAT FLOTANTE ===== -->
+  <div class="chat-flotante" id="chatWidget">
+    <div class="chat-header" id="chatToggle">
+      <span>💬 Chat de la Polla</span>
+      <span id="chatArrow" style="font-size:0.8rem;">▼</span>
+    </div>
+    <div class="chat-emoji-bar">
+      <button class="emoji-btn" data-emoji="😊">😊</button>
+      <button class="emoji-btn" data-emoji="😂">😂</button>
+      <button class="emoji-btn" data-emoji="🔥">🔥</button>
+      <button class="emoji-btn" data-emoji="🎉">🎉</button>
+      <button class="emoji-btn" data-emoji="⚽">⚽</button>
+      <button class="emoji-btn" data-emoji="🏆">🏆</button>
+      <button class="emoji-btn" data-emoji="💪">💪</button>
+      <button class="emoji-btn" data-emoji="👏">👏</button>
+      <button class="emoji-btn" data-emoji="🍿">🍿</button>
+      <button class="emoji-btn" data-emoji="😎">😎</button>
+      <button class="emoji-btn" data-emoji="🤣">🤣</button>
+      <button class="emoji-btn" data-emoji="❤️">❤️</button>
+      <button class="emoji-btn" data-emoji="✨">✨</button>
+      <button class="emoji-btn" data-emoji="💀">💀</button>
+      <button class="emoji-btn" data-emoji="👀">👀</button>
+      <button class="emoji-btn" data-emoji="🙌">🙌</button>
+    </div>
+    <div class="chat-mensajes" id="chatMensajes">
+      <div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Cargando mensajes...</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Escribe un mensaje..." maxlength="200">
+      <button id="chatEnviar">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ================================================================
+      // 0. CONFIGURACIÓN DE LA FINAL
+      // ================================================================
+      const FINAL_DATE = new Date('2026-07-19T15:00:00Z').getTime();
+
+      // ================================================================
+      // 1. SISTEMA DE USUARIO Y VISITAS
+      // ================================================================
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-XI-wqSxdXUhDbRw0mGI_7vA29pfB92PY1KhqsyFFTmydCBQWY39ccQzo_6xWtbVTwg/exec';
+      const STORAGE_KEY = 'usuario_actual_polla_mundial';
+
+      // 🔥 CAMBIA ESTA URL POR LA DE TU SCRIPT DE CHAT
+      const CHAT_API_URL = 'https://script.google.com/macros/s/AKfycbyjx0FkSUMllpYpqc7azhDV7TbHt3sF4UEMB6QNuU_H90WlidFTcKcgEGkvChYeYE7ASA/exec';
+
+      const LISTA_PARTICIPANTES = [
+        'Invitado',
+        'Ariel', 'Camilo', 'Carito', 'Claudio Padilla', 'Daniela',
+        'Diego Toledo', 'Felipe Bustos', 'Felipe HD', 'Grace', 'Karen Garrido',
+        'Lando', 'Leo', 'Marcelitocuerdas', 'Marrosquino', 'María Isabel',
+        'Miry', 'Pablo Meliqueo', 'Papasote ALV', 'Rocio', 'Rodrigo Arriaza',
+        'Sergio Luigi', 'Stuart'
+      ];
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          return m;
+        });
+      }
+
+      async function registrarVisita(participante) {
+        if (!participante) return;
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ participante: participante })
+          });
+        } catch (err) { console.error(err); }
+      }
+
+      async function obtenerVisitas(participante) {
+        if (!participante) return 0;
+        try {
+          const url = `${SCRIPT_URL}?participante=${encodeURIComponent(participante)}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          return data.visitas || 0;
+        } catch (err) { return 0; }
+      }
+
+      function mostrarUsuarioActual(nombre) {
+        const container = document.getElementById('usuarioContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        if (!nombre) return;
+        const div = document.createElement('div');
+        div.className = 'usuario-actual';
+        div.innerHTML = `
+          <span>👤 <strong>${escapeHtml(nombre)}</strong></span>
+          <span class="visitas">👁️ Visitas: <span id="contadorValor">--</span></span>
+          <button class="btn-cambiar" id="btnCambiarUsuario">Cambiar usuario</button>
+        `;
+        container.appendChild(div);
+        obtenerVisitas(nombre).then(visitas => {
+          const span = document.getElementById('contadorValor');
+          if (span) span.textContent = visitas;
+        });
+        document.getElementById('btnCambiarUsuario')?.addEventListener('click', () => {
+          localStorage.removeItem(STORAGE_KEY);
+          mostrarModal();
+          container.innerHTML = '';
+        });
+      }
+
+      function mostrarModal() {
+        if (document.getElementById('modalLogin')) return;
+        const modal = document.createElement('div');
+        modal.id = 'modalLogin';
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+          <div class="modal-content">
+            <h2>👋 Bienvenido a LuigiBET 2026</h2>
+            <p>Selecciona tu nombre para continuar:</p>
+            <select id="selectUsuario">
+              <option value="">-- Elige tu usuario --</option>
+              ${LISTA_PARTICIPANTES.map(p => `<option value="${p.replace(/"/g, '&quot;')}">${p}</option>`).join('')}
+            </select>
+            <button class="btn-ingresar" id="btnConfirmarUsuario">Ingresar</button>
+            <p class="nota">* Tus apuestas se mantendrán asociadas a este nombre.</p>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        const btnConfirmar = document.getElementById('btnConfirmarUsuario');
+        const selectUsuario = document.getElementById('selectUsuario');
+        const seleccionar = async () => {
+          const nombre = selectUsuario.value;
+          if (nombre) {
+            localStorage.setItem(STORAGE_KEY, nombre);
+            await registrarVisita(nombre);
+            modal.remove();
+            mostrarUsuarioActual(nombre);
+          } else {
+            alert('Por favor selecciona un participante.');
+          }
+        };
+        btnConfirmar.addEventListener('click', seleccionar);
+        selectUsuario.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') seleccionar();
+        });
+      }
+
+      function iniciarSistemaUsuario() {
+        const usuarioGuardado = localStorage.getItem(STORAGE_KEY);
+        if (usuarioGuardado && LISTA_PARTICIPANTES.includes(usuarioGuardado)) {
+          mostrarUsuarioActual(usuarioGuardado);
+          registrarVisita(usuarioGuardado);
         } else {
-          alert('Por favor selecciona un participante.');
+          if (usuarioGuardado) localStorage.removeItem(STORAGE_KEY);
+          mostrarModal();
         }
+      }
+
+      // ================================================================
+      // 2. TRADUCCIONES Y BANDERAS
+      // ================================================================
+      const traducciones = {
+        "Mexico": "México",
+        "South Korea": "Corea del Sur",
+        "Korea Republic": "Corea del Sur",
+        "Czech Republic": "Chequia",
+        "Czechia": "Chequia",
+        "South Africa": "Sudáfrica",
+        "Canada": "Canadá",
+        "Qatar": "Catar",
+        "Switzerland": "Suiza",
+        "Bosnia and Herzegovina": "Bosnia H.",
+        "Bosnia": "Bosnia H.",
+        "Brazil": "Brasil",
+        "Haiti": "Haití",
+        "Scotland": "Escocia",
+        "Morocco": "Marruecos",
+        "United States": "Estados Unidos",
+        "USA": "Estados Unidos",
+        "Australia": "Australia",
+        "Turkey": "Turquía",
+        "Paraguay": "Paraguay",
+        "Germany": "Alemania",
+        "Ivory Coast": "Costa de Marfil",
+        "Côte d'Ivoire": "Costa de Marfil",
+        "Ecuador": "Ecuador",
+        "Curaçao": "Curazao",
+        "Netherlands": "Países Bajos",
+        "Sweden": "Suecia",
+        "Tunisia": "Túnez",
+        "Japan": "Japón",
+        "Iran": "Irán",
+        "Belgium": "Bélgica",
+        "New Zealand": "Nueva Zelanda",
+        "Egypt": "Egipto",
+        "Saudi Arabia": "Arabia Saudita",
+        "Spain": "España",
+        "Uruguay": "Uruguay",
+        "Cape Verde": "Cabo Verde",
+        "Iraq": "Irak",
+        "France": "Francia",
+        "Norway": "Noruega",
+        "Senegal": "Senegal",
+        "Austria": "Austria",
+        "Argentina": "Argentina",
+        "Jordan": "Jordania",
+        "Algeria": "Argelia",
+        "Uzbekistan": "Uzbekistán",
+        "Portugal": "Portugal",
+        "Colombia": "Colombia",
+        "Congo DR": "R.D. del Congo",
+        "Democratic Republic of the Congo": "R.D. del Congo",
+        "Ghana": "Ghana",
+        "England": "Inglaterra",
+        "Panama": "Panamá",
+        "Croatia": "Croacia"
       };
-      btnConfirmar.addEventListener('click', seleccionar);
-      selectUsuario.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') seleccionar();
-      });
-    }
 
-    function iniciarSistemaUsuario() {
-      const usuarioGuardado = localStorage.getItem(STORAGE_KEY);
-      if (usuarioGuardado && LISTA_PARTICIPANTES.includes(usuarioGuardado)) {
-        mostrarUsuarioActual(usuarioGuardado);
-        registrarVisita(usuarioGuardado);
-      } else {
-        if (usuarioGuardado) localStorage.removeItem(STORAGE_KEY);
-        mostrarModal();
-      }
-    }
+      const BANDERAS = {
+        "México": "mx",
+        "Sudáfrica": "za",
+        "Corea del Sur": "kr",
+        "Chequia": "cz",
+        "Canadá": "ca",
+        "Bosnia H.": "ba",
+        "Catar": "qa",
+        "Suiza": "ch",
+        "Brasil": "br",
+        "Marruecos": "ma",
+        "Haití": "ht",
+        "Escocia": "gb-sct",
+        "Estados Unidos": "us",
+        "Paraguay": "py",
+        "Australia": "au",
+        "Turquía": "tr",
+        "Alemania": "de",
+        "Curazao": "cw",
+        "Costa de Marfil": "ci",
+        "Ecuador": "ec",
+        "Países Bajos": "nl",
+        "Japón": "jp",
+        "Suecia": "se",
+        "Túnez": "tn",
+        "Irán": "ir",
+        "Nueva Zelanda": "nz",
+        "Bélgica": "be",
+        "Egipto": "eg",
+        "Arabia Saudita": "sa",
+        "Uruguay": "uy",
+        "España": "es",
+        "Cabo Verde": "cv",
+        "Irak": "iq",
+        "Noruega": "no",
+        "Francia": "fr",
+        "Senegal": "sn",
+        "Austria": "at",
+        "Jordania": "jo",
+        "Argentina": "ar",
+        "Argelia": "dz",
+        "Uzbekistán": "uz",
+        "Colombia": "co",
+        "Portugal": "pt",
+        "R.D. del Congo": "cd",
+        "Ghana": "gh",
+        "Panamá": "pa",
+        "Inglaterra": "gb-eng",
+        "Croacia": "hr"
+      };
 
-    // ================================================================
-    // TRADUCCIONES Y BANDERAS
-    // ================================================================
-    const traducciones = {
-      "Mexico": "México", "South Korea": "Corea del Sur", "Korea Republic": "Corea del Sur",
-      "Czech Republic": "Chequia", "Czechia": "Chequia", "South Africa": "Sudáfrica",
-      "Canada": "Canadá", "Qatar": "Catar", "Switzerland": "Suiza",
-      "Bosnia and Herzegovina": "Bosnia H.", "Bosnia": "Bosnia H.",
-      "Brazil": "Brasil", "Haiti": "Haití", "Scotland": "Escocia",
-      "Morocco": "Marruecos", "United States": "Estados Unidos", "USA": "Estados Unidos",
-      "Australia": "Australia", "Turkey": "Turquía", "Paraguay": "Paraguay",
-      "Germany": "Alemania", "Ivory Coast": "Costa de Marfil", "Côte d'Ivoire": "Costa de Marfil",
-      "Ecuador": "Ecuador", "Curaçao": "Curazao", "Netherlands": "Países Bajos",
-      "Sweden": "Suecia", "Tunisia": "Túnez", "Japan": "Japón",
-      "Iran": "Irán", "Belgium": "Bélgica", "New Zealand": "Nueva Zelanda",
-      "Egypt": "Egipto", "Saudi Arabia": "Arabia Saudita", "Spain": "España",
-      "Uruguay": "Uruguay", "Cape Verde": "Cabo Verde", "Iraq": "Irak",
-      "France": "Francia", "Norway": "Noruega", "Senegal": "Senegal",
-      "Austria": "Austria", "Argentina": "Argentina", "Jordan": "Jordania",
-      "Algeria": "Argelia", "Uzbekistan": "Uzbekistán", "Portugal": "Portugal",
-      "Colombia": "Colombia", "Congo DR": "R.D. del Congo",
-      "Democratic Republic of the Congo": "R.D. del Congo",
-      "Ghana": "Ghana", "England": "Inglaterra", "Panama": "Panamá",
-      "Croatia": "Croacia"
-    };
-
-    const BANDERAS = {
-      "México": "mx", "Sudáfrica": "za", "Corea del Sur": "kr", "Chequia": "cz",
-      "Canadá": "ca", "Bosnia H.": "ba", "Catar": "qa", "Suiza": "ch",
-      "Brasil": "br", "Marruecos": "ma", "Haití": "ht", "Escocia": "gb-sct",
-      "Estados Unidos": "us", "Paraguay": "py", "Australia": "au", "Turquía": "tr",
-      "Alemania": "de", "Curazao": "cw", "Costa de Marfil": "ci", "Ecuador": "ec",
-      "Países Bajos": "nl", "Japón": "jp", "Suecia": "se", "Túnez": "tn",
-      "Irán": "ir", "Nueva Zelanda": "nz", "Bélgica": "be", "Egipto": "eg",
-      "Arabia Saudita": "sa", "Uruguay": "uy", "España": "es", "Cabo Verde": "cv",
-      "Irak": "iq", "Noruega": "no", "Francia": "fr", "Senegal": "sn",
-      "Austria": "at", "Jordania": "jo", "Argentina": "ar", "Argelia": "dz",
-      "Uzbekistán": "uz", "Colombia": "co", "Portugal": "pt", "R.D. del Congo": "cd",
-      "Ghana": "gh", "Panamá": "pa", "Inglaterra": "gb-eng", "Croacia": "hr"
-    };
-
-    function obtenerHtmlConBandera(nombrePais) {
-      if (!nombrePais) return '';
-      const paisLimpio = nombrePais.trim();
-      const codigo = BANDERAS[paisLimpio];
-      if (codigo) {
-        return `<img src="https://flagcdn.com/16x12/${codigo}.png" style="vertical-align: middle; margin-right: 8px; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);" alt="Bandera de ${paisLimpio}" onerror="this.style.display='none'">`;
-      }
-      return '';
-    }
-
-    // ================================================================
-    // FIXTURE
-    // ================================================================
-    const API_URL = "https://worldcup26.ir/get/games";
-
-    async function obtenerDatosAPI() {
-      try {
-        const respuesta = await fetch(API_URL, { cache: 'no-store', headers: { 'Accept': 'application/json' } });
-        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-        const data = await respuesta.json();
-        return data.games || [];
-      } catch (error) {
-        throw new Error("No se pudieron obtener los datos de la API: " + error.message);
-      }
-    }
-
-    function organizarPartidos(todos) {
-      const tiposKnockout = ['r32', 'r16', 'qf'];
-      const knockouts = todos.filter(p => tiposKnockout.includes(p.type));
-      const porTipo = {};
-      knockouts.forEach(p => {
-        if (!porTipo[p.type]) porTipo[p.type] = [];
-        porTipo[p.type].push(p);
-      });
-      const ordenTipos = ['r32', 'r16', 'qf'];
-      const resultado = {};
-      ordenTipos.forEach(tipo => {
-        if (porTipo[tipo]) {
-          porTipo[tipo].sort((a, b) => Number(a.id) - Number(b.id));
-          resultado[tipo] = porTipo[tipo];
-        } else {
-          resultado[tipo] = [];
+      function obtenerHtmlConBandera(nombrePais) {
+        if (!nombrePais) return '';
+        const paisLimpio = nombrePais.trim();
+        const codigo = BANDERAS[paisLimpio];
+        if (codigo) {
+          return `<img src="https://flagcdn.com/16x12/${codigo}.png" style="vertical-align: middle; margin-right: 8px; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);" alt="Bandera de ${paisLimpio}" onerror="this.style.display='none'">`;
         }
-      });
-      return resultado;
-    }
+        return '';
+      }
 
-    function renderizarBracket(partidosPorTipo) {
-      const container = document.getElementById('bracketContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      const titulos = { 'r32': '16avos', 'r16': 'Octavos', 'qf': 'Cuartos' };
-      const tipos = ['r32', 'r16', 'qf'];
-      tipos.forEach((tipo) => {
-        const partidos = partidosPorTipo[tipo] || [];
-        const columna = document.createElement('div');
-        columna.className = 'ronda';
-        columna.dataset.tipo = tipo;
-        const titulo = document.createElement('div');
-        titulo.className = 'ronda-titulo';
-        titulo.textContent = titulos[tipo] || tipo.toUpperCase();
-        columna.appendChild(titulo);
-        if (partidos.length === 0) {
-          const vacio = document.createElement('div');
-          vacio.className = 'partido partido-sin-definir';
-          vacio.textContent = 'Sin definir';
-          columna.appendChild(vacio);
+      // ================================================================
+      // 3. FIXTURE
+      // ================================================================
+      const API_URL = "https://worldcup26.ir/get/games";
+
+      async function obtenerDatosAPI() {
+        try {
+          const respuesta = await fetch(API_URL, { cache: 'no-store', headers: { 'Accept': 'application/json' } });
+          if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+          const data = await respuesta.json();
+          return data.games || [];
+        } catch (error) {
+          throw new Error("No se pudieron obtener los datos de la API: " + error.message);
+        }
+      }
+
+      function organizarPartidos(todos) {
+        const tiposKnockout = ['r32', 'r16', 'qf'];
+        const knockouts = todos.filter(p => tiposKnockout.includes(p.type));
+        const porTipo = {};
+        knockouts.forEach(p => {
+          if (!porTipo[p.type]) porTipo[p.type] = [];
+          porTipo[p.type].push(p);
+        });
+        const ordenTipos = ['r32', 'r16', 'qf'];
+        const resultado = {};
+        ordenTipos.forEach(tipo => {
+          if (porTipo[tipo]) {
+            porTipo[tipo].sort((a, b) => Number(a.id) - Number(b.id));
+            resultado[tipo] = porTipo[tipo];
+          } else {
+            resultado[tipo] = [];
+          }
+        });
+        return resultado;
+      }
+
+      function renderizarBracket(partidosPorTipo) {
+        const container = document.getElementById('bracketContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        const titulos = { 'r32': '16avos', 'r16': 'Octavos', 'qf': 'Cuartos' };
+        const tipos = ['r32', 'r16', 'qf'];
+        tipos.forEach((tipo) => {
+          const partidos = partidosPorTipo[tipo] || [];
+          const columna = document.createElement('div');
+          columna.className = 'ronda';
+          columna.dataset.tipo = tipo;
+          const titulo = document.createElement('div');
+          titulo.className = 'ronda-titulo';
+          titulo.textContent = titulos[tipo] || tipo.toUpperCase();
+          columna.appendChild(titulo);
+          if (partidos.length === 0) {
+            const vacio = document.createElement('div');
+            vacio.className = 'partido partido-sin-definir';
+            vacio.textContent = 'Sin definir';
+            columna.appendChild(vacio);
+            container.appendChild(columna);
+            return;
+          }
+          partidos.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'partido';
+            const localIng = p.home_team_name_en || p.home_team_label || 'TBD';
+            const visitaIng = p.away_team_name_en || p.away_team_label || 'TBD';
+            const local = traducciones[localIng] || localIng;
+            const visita = traducciones[visitaIng] || visitaIng;
+            const golesL = (p.home_score !== undefined && p.home_score !== null && p.home_score !== '') ? p.home_score : '–';
+            const golesV = (p.away_score !== undefined && p.away_score !== null && p.away_score !== '') ? p.away_score : '–';
+            let ganador = null;
+            if (p.finished === 'TRUE' || p.finished === true) {
+              const numL = Number(golesL);
+              const numV = Number(golesV);
+              if (!isNaN(numL) && !isNaN(numV) && numL !== numV) {
+                ganador = numL > numV ? 'local' : 'visita';
+              }
+            }
+            const esGanadorLocal = ganador === 'local';
+            const esGanadorVisita = ganador === 'visita';
+            const header = document.createElement('div');
+            header.className = 'partido-header';
+            header.textContent = `M${p.id}`;
+            div.appendChild(header);
+            const eqLocal = document.createElement('div');
+            eqLocal.className = 'equipo';
+            const nombreLocal = document.createElement('span');
+            nombreLocal.className = `equipo-nombre ${esGanadorLocal ? 'ganador' : ''}`;
+            const banderaHtmlLocal = obtenerHtmlConBandera(local);
+            nombreLocal.innerHTML = `${banderaHtmlLocal} ${local}`;
+            const resLocal = document.createElement('span');
+            resLocal.className = `equipo-resultado ${esGanadorLocal ? 'ganador' : ''}`;
+            resLocal.textContent = golesL;
+            eqLocal.appendChild(nombreLocal);
+            eqLocal.appendChild(resLocal);
+            div.appendChild(eqLocal);
+            const eqVisita = document.createElement('div');
+            eqVisita.className = 'equipo';
+            const nombreVisita = document.createElement('span');
+            nombreVisita.className = `equipo-nombre ${esGanadorVisita ? 'ganador' : ''}`;
+            const banderaHtmlVisita = obtenerHtmlConBandera(visita);
+            nombreVisita.innerHTML = `${banderaHtmlVisita} ${visita}`;
+            const resVisita = document.createElement('span');
+            resVisita.className = `equipo-resultado ${esGanadorVisita ? 'ganador' : ''}`;
+            resVisita.textContent = golesV;
+            eqVisita.appendChild(nombreVisita);
+            eqVisita.appendChild(resVisita);
+            div.appendChild(eqVisita);
+            columna.appendChild(div);
+          });
           container.appendChild(columna);
-          return;
+        });
+        requestAnimationFrame(() => {
+          const columnas = container.querySelectorAll('.ronda');
+          columnas.forEach(columna => {
+            const partidos = columna.querySelectorAll('.partido');
+            if (partidos.length === 0) return;
+            let max = 0;
+            partidos.forEach(p => {
+              const clon = p.cloneNode(true);
+              clon.style.position = 'absolute';
+              clon.style.visibility = 'hidden';
+              clon.style.width = 'auto';
+              clon.style.maxWidth = 'none';
+              document.body.appendChild(clon);
+              const w = clon.offsetWidth;
+              document.body.removeChild(clon);
+              if (w > max) max = w;
+            });
+            if (max === 0) max = 160;
+            columna.style.minWidth = (max + 16) + 'px';
+            columna.style.maxWidth = (max + 16) + 'px';
+            partidos.forEach(p => p.style.width = '100%');
+          });
+        });
+      }
+
+      // ================================================================
+      // 4. TABLA DE POSICIONES
+      // ================================================================
+      const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
+      const SHEET_NAME = "Tabla dinámica 6";
+      const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+      let datosApuestas = [];
+      let ordenApuestas = { columna: null, direccion: 'asc' };
+      let participantesActuales = [];
+      let prevTop6 = [];
+
+      async function obtenerDatosTabla() {
+        try {
+          const response = await fetch(SHEET_URL, { cache: 'no-store', headers: { 'Accept': 'text/csv, application/csv, text/plain' } });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const csvText = await response.text();
+          if (csvText.trim().startsWith('<!DOCTYPE') || csvText.trim().startsWith('<html')) {
+            throw new Error(`La hoja "${SHEET_NAME}" no es pública o no existe.`);
+          }
+          if (!csvText || csvText.trim() === '') throw new Error(`La hoja "${SHEET_NAME}" está vacía.`);
+          return csvText;
+        } catch (error) {
+          throw error;
         }
-        partidos.forEach(p => {
-          const div = document.createElement('div');
-          div.className = 'partido';
-          const localIng = p.home_team_name_en || p.home_team_label || 'TBD';
-          const visitaIng = p.away_team_name_en || p.away_team_label || 'TBD';
-          const local = traducciones[localIng] || localIng;
-          const visita = traducciones[visitaIng] || visitaIng;
-          const golesL = (p.home_score !== undefined && p.home_score !== null && p.home_score !== '') ? p.home_score : '–';
-          const golesV = (p.away_score !== undefined && p.away_score !== null && p.away_score !== '') ? p.away_score : '–';
-          let ganador = null;
-          if (p.finished === 'TRUE' || p.finished === true) {
-            const numL = Number(golesL);
-            const numV = Number(golesV);
-            if (!isNaN(numL) && !isNaN(numV) && numL !== numV) {
-              ganador = numL > numV ? 'local' : 'visita';
+      }
+
+      function parseCSV(csv) {
+        const lines = [];
+        let currentLine = '';
+        let insideQuotes = false;
+        for (let i = 0; i < csv.length; i++) {
+          const char = csv[i];
+          if (char === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (char === '\n' && !insideQuotes) {
+            lines.push(currentLine.trim());
+            currentLine = '';
+            continue;
+          }
+          currentLine += char;
+        }
+        if (currentLine.trim() !== '') lines.push(currentLine.trim());
+        if (lines.length < 2) return [];
+
+        function parseLine(line) {
+          const values = [];
+          let current = '';
+          let inQuotes = false;
+          for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              values.push(current.trim());
+              current = '';
+            } else {
+              current += char;
             }
           }
-          const esGanadorLocal = ganador === 'local';
-          const esGanadorVisita = ganador === 'visita';
-          const header = document.createElement('div');
-          header.className = 'partido-header';
-          header.textContent = `M${p.id}`;
-          div.appendChild(header);
-          const eqLocal = document.createElement('div');
-          eqLocal.className = 'equipo';
-          const nombreLocal = document.createElement('span');
-          nombreLocal.className = `equipo-nombre ${esGanadorLocal ? 'ganador' : ''}`;
-          const banderaHtmlLocal = obtenerHtmlConBandera(local);
-          nombreLocal.innerHTML = `${banderaHtmlLocal} ${local}`;
-          const resLocal = document.createElement('span');
-          resLocal.className = `equipo-resultado ${esGanadorLocal ? 'ganador' : ''}`;
-          resLocal.textContent = golesL;
-          eqLocal.appendChild(nombreLocal);
-          eqLocal.appendChild(resLocal);
-          div.appendChild(eqLocal);
-          const eqVisita = document.createElement('div');
-          eqVisita.className = 'equipo';
-          const nombreVisita = document.createElement('span');
-          nombreVisita.className = `equipo-nombre ${esGanadorVisita ? 'ganador' : ''}`;
-          const banderaHtmlVisita = obtenerHtmlConBandera(visita);
-          nombreVisita.innerHTML = `${banderaHtmlVisita} ${visita}`;
-          const resVisita = document.createElement('span');
-          resVisita.className = `equipo-resultado ${esGanadorVisita ? 'ganador' : ''}`;
-          resVisita.textContent = golesV;
-          eqVisita.appendChild(nombreVisita);
-          eqVisita.appendChild(resVisita);
-          div.appendChild(eqVisita);
-          columna.appendChild(div);
-        });
-        container.appendChild(columna);
-      });
-      requestAnimationFrame(() => {
-        const columnas = container.querySelectorAll('.ronda');
-        columnas.forEach(columna => {
-          const partidos = columna.querySelectorAll('.partido');
-          if (partidos.length === 0) return;
-          let max = 0;
-          partidos.forEach(p => {
-            const clon = p.cloneNode(true);
-            clon.style.position = 'absolute';
-            clon.style.visibility = 'hidden';
-            clon.style.width = 'auto';
-            clon.style.maxWidth = 'none';
-            document.body.appendChild(clon);
-            const w = clon.offsetWidth;
-            document.body.removeChild(clon);
-            if (w > max) max = w;
+          values.push(current.trim());
+          return values;
+        }
+
+        const headerLine = lines[0];
+        const headers = parseLine(headerLine).map(h => h.replace(/^"|"$/g, '').trim());
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = parseLine(lines[i]);
+          if (values.length < headers.length) {
+            while (values.length < headers.length) values.push('');
+          }
+          const row = {};
+          headers.forEach((h, idx) => {
+            row[h] = values[idx] ? values[idx].replace(/^"|"$/g, '').trim() : '';
           });
-          if (max === 0) max = 160;
-          columna.style.minWidth = (max + 16) + 'px';
-          columna.style.maxWidth = (max + 16) + 'px';
-          partidos.forEach(p => p.style.width = '100%');
+          data.push(row);
+        }
+        return data;
+      }
+
+      function ordenarParticipantes(data) {
+        if (!data || data.length === 0) return [];
+        const headers = Object.keys(data[0] || {});
+        const colParticipante = headers.find(h => /participante|nombre|jugador|participants/i.test(h)) || headers[0];
+        const colPuntos = headers.find(h => /puntos|puntaje|pts|points/i.test(h)) || headers[1];
+        const colAciertos = headers.find(h => /aciertos|aciert|hits/i.test(h)) || headers[2];
+        const colExactos = headers.find(h => /exactos|exact|precise/i.test(h)) || headers[3];
+        const colInscripcion = headers.find(h => /inscripcion|insc|order|registro/i.test(h)) || headers[4];
+
+        const participantes = data.map(row => {
+          const clean = (val) => {
+            if (typeof val === 'string') return val.replace(/^"|"$/g, '').trim();
+            return val;
+          };
+          const nombre = clean(row[colParticipante]);
+          if (!nombre || nombre === '' || nombre === 'Participantes') return null;
+          const puntos = parseFloat(clean(row[colPuntos]).replace(',', '.')) || 0;
+          const aciertos = parseFloat(clean(row[colAciertos]).replace(',', '.')) || 0;
+          const exactos = parseFloat(clean(row[colExactos]).replace(',', '.')) || 0;
+          const inscripcion = parseFloat(clean(row[colInscripcion]).replace(',', '.')) || 0;
+          return { nombre, puntos, aciertos, exactos, inscripcion };
+        }).filter(p => p !== null);
+
+        participantes.sort((a, b) => {
+          if (a.puntos !== b.puntos) return b.puntos - a.puntos;
+          if (a.aciertos !== b.aciertos) return b.aciertos - a.aciertos;
+          if (a.exactos !== b.exactos) return b.exactos - a.exactos;
+          return a.inscripcion - b.inscripcion;
         });
-      });
-    }
+        return participantes;
+      }
 
-    // ================================================================
-    // TABLA DE POSICIONES
-    // ================================================================
-    const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
-    const SHEET_NAME = "Tabla dinámica 6";
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
-
-    let datosApuestas = [];
-    let ordenApuestas = { columna: null, direccion: 'asc' };
-    let participantesActuales = [];
-    let prevTop6 = [];
-
-    async function obtenerDatosTabla() {
-      try {
-        const response = await fetch(SHEET_URL, { cache: 'no-store', headers: { 'Accept': 'text/csv, application/csv, text/plain' } });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const csvText = await response.text();
-        if (csvText.trim().startsWith('<!DOCTYPE') || csvText.trim().startsWith('<html')) {
-          throw new Error(`La hoja "${SHEET_NAME}" no es pública o no existe.`);
+      function renderizarTabla(participantes) {
+        const container = document.getElementById('tablaContainer');
+        if (!container) return;
+        if (!participantes || participantes.length === 0) {
+          container.innerHTML = `<p style="padding: 20px; text-align: center; color: var(--texto-sec);">No se encontraron participantes.</p>`;
+          return;
         }
-        if (!csvText || csvText.trim() === '') throw new Error(`La hoja "${SHEET_NAME}" está vacía.`);
-        return csvText;
-      } catch (error) {
-        throw error;
-      }
-    }
 
-    function parseCSV(csv) {
-      const lines = [];
-      let currentLine = '';
-      let insideQuotes = false;
-      for (let i = 0; i < csv.length; i++) {
-        const char = csv[i];
-        if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === '\n' && !insideQuotes) {
-          lines.push(currentLine.trim());
-          currentLine = '';
-          continue;
+        const currentTop6 = participantes.slice(0, 6).map(p => ({ ...p }));
+        const usuarioActual = localStorage.getItem(STORAGE_KEY);
+        let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
+
+        const trends = {};
+        if (prevTop6.length > 0) {
+          const prevMap = {};
+          prevTop6.forEach(p => { prevMap[p.nombre] = p.puntos; });
+          currentTop6.forEach(p => {
+            const prevPts = prevMap[p.nombre];
+            if (prevPts !== undefined) {
+              if (p.puntos > prevPts) trends[p.nombre] = 'up';
+              else if (p.puntos < prevPts) trends[p.nombre] = 'down';
+              else trends[p.nombre] = 'stable';
+            } else {
+              trends[p.nombre] = 'up';
+            }
+          });
         }
-        currentLine += char;
-      }
-      if (currentLine.trim() !== '') lines.push(currentLine.trim());
-      if (lines.length < 2) return [];
+        prevTop6 = currentTop6.map(p => ({ ...p }));
 
-      function parseLine(line) {
-        const values = [];
-        let current = '';
-        let inQuotes = false;
-        for (let i = 0; i < line.length; i++) {
-          const char = line[i];
-          if (char === '"') {
-            inQuotes = !inQuotes;
-          } else if (char === ',' && !inQuotes) {
-            values.push(current.trim());
-            current = '';
-          } else {
-            current += char;
-          }
+        const top6 = participantes.slice(0, 6);
+        if (top6.length === 0) {
+          container.innerHTML = `<p style="padding: 20px; text-align: center; color: var(--texto-sec);">No hay suficientes participantes.</p>`;
+          return;
         }
-        values.push(current.trim());
-        return values;
-      }
 
-      const headerLine = lines[0];
-      const headers = parseLine(headerLine).map(h => h.replace(/^"|"$/g, '').trim());
-      const data = [];
-      for (let i = 1; i < lines.length; i++) {
-        const values = parseLine(lines[i]);
-        if (values.length < headers.length) {
-          while (values.length < headers.length) values.push('');
-        }
-        const row = {};
-        headers.forEach((h, idx) => {
-          row[h] = values[idx] ? values[idx].replace(/^"|"$/g, '').trim() : '';
-        });
-        data.push(row);
-      }
-      return data;
-    }
+        const podio = top6.slice(0, 3);
+        const resto = top6.slice(3);
 
-    function ordenarParticipantes(data) {
-      if (!data || data.length === 0) return [];
-      const headers = Object.keys(data[0] || {});
-      const colParticipante = headers.find(h => /participante|nombre|jugador|participants/i.test(h)) || headers[0];
-      const colPuntos = headers.find(h => /puntos|puntaje|pts|points/i.test(h)) || headers[1];
-      const colAciertos = headers.find(h => /aciertos|aciert|hits/i.test(h)) || headers[2];
-      const colExactos = headers.find(h => /exactos|exact|precise/i.test(h)) || headers[3];
-      const colInscripcion = headers.find(h => /inscripcion|insc|order|registro/i.test(h)) || headers[4];
-
-      const participantes = data.map(row => {
-        const clean = (val) => {
-          if (typeof val === 'string') return val.replace(/^"|"$/g, '').trim();
-          return val;
-        };
-        const nombre = clean(row[colParticipante]);
-        if (!nombre || nombre === '' || nombre === 'Participantes') return null;
-        const puntos = parseFloat(clean(row[colPuntos]).replace(',', '.')) || 0;
-        const aciertos = parseFloat(clean(row[colAciertos]).replace(',', '.')) || 0;
-        const exactos = parseFloat(clean(row[colExactos]).replace(',', '.')) || 0;
-        const inscripcion = parseFloat(clean(row[colInscripcion]).replace(',', '.')) || 0;
-        return { nombre, puntos, aciertos, exactos, inscripcion };
-      }).filter(p => p !== null);
-
-      participantes.sort((a, b) => {
-        if (a.puntos !== b.puntos) return b.puntos - a.puntos;
-        if (a.aciertos !== b.aciertos) return b.aciertos - a.aciertos;
-        if (a.exactos !== b.exactos) return b.exactos - a.exactos;
-        return a.inscripcion - b.inscripcion;
-      });
-      return participantes;
-    }
-
-    function renderizarTabla(participantes) {
-      const container = document.getElementById('tablaContainer');
-      if (!container) return;
-      if (!participantes || participantes.length === 0) {
-        container.innerHTML = `<p style="padding: 20px; text-align: center; color: var(--texto-sec);">No se encontraron participantes.</p>`;
-        return;
-      }
-
-      const currentTop6 = participantes.slice(0, 6).map(p => ({ ...p }));
-      const usuarioActual = localStorage.getItem(STORAGE_KEY);
-      let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
-
-      const trends = {};
-      if (prevTop6.length > 0) {
-        const prevMap = {};
-        prevTop6.forEach(p => { prevMap[p.nombre] = p.puntos; });
-        currentTop6.forEach(p => {
-          const prevPts = prevMap[p.nombre];
-          if (prevPts !== undefined) {
-            if (p.puntos > prevPts) trends[p.nombre] = 'up';
-            else if (p.puntos < prevPts) trends[p.nombre] = 'down';
-            else trends[p.nombre] = 'stable';
-          } else {
-            trends[p.nombre] = 'up';
-          }
-        });
-      }
-      prevTop6 = currentTop6.map(p => ({ ...p }));
-
-      const top6 = participantes.slice(0, 6);
-      if (top6.length === 0) {
-        container.innerHTML = `<p style="padding: 20px; text-align: center; color: var(--texto-sec);">No hay suficientes participantes.</p>`;
-        return;
-      }
-
-      const podio = top6.slice(0, 3);
-      const resto = top6.slice(3);
-
-      let html = `<div class="podio-container">`;
-      html += `<div class="podio">`;
-      const ordenPodio = [podio[1], podio[0], podio[2]];
-      const clases = ['puesto-2', 'puesto-1', 'puesto-3'];
-      const medallas = ['🥈', '🥇', '🥉'];
-      ordenPodio.forEach((p, idx) => {
-        if (!p) return;
-        const pos = idx === 0 ? 2 : (idx === 1 ? 1 : 3);
-        const esMiPuesto = (usuarioActual && p.nombre === usuarioActual);
-        const trend = trends[p.nombre] || 'stable';
-        let trendSymbol = '➡️';
-        let trendClass = 'trend-stable';
-        if (trend === 'up') { trendSymbol = '📈'; trendClass = 'trend-up'; }
-        else if (trend === 'down') { trendSymbol = '📉'; trendClass = 'trend-down'; }
-
-        const votosCount = votos[p.nombre] || 0;
-
-        html += `<div class="puesto ${clases[idx]} ${esMiPuesto ? 'mi-puesto' : ''}">`;
-        html += `<div class="medalla">${medallas[idx]}</div>`;
-        html += `<div class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></div>`;
-        html += `<div class="puntos">${p.puntos} pts</div>`;
-        html += `<div class="estadisticas">Aciertos: ${p.aciertos} · Exactos: ${p.exactos}</div>`;
-        html += `<div class="tooltip-extra">🔹 Efectividad: ${p.aciertos > 0 ? Math.round((p.exactos/p.aciertos)*100) : 0}% · 🔸 Partidos: ${p.aciertos + (p.exactos || 0)}</div>`;
-        if (pos === 1) {
-          html += `<div class="copa">🏆</div>`;
-        }
-        html += `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ Votar <span class="votos-count">(${votosCount})</span></button>`;
-        html += `</div>`;
-      });
-      html += `</div>`;
-
-      if (resto.length > 0) {
-        html += `<div class="resto">`;
-        resto.forEach((p, index) => {
-          const pos = index + 4;
+        let html = `<div class="podio-container">`;
+        html += `<div class="podio">`;
+        const ordenPodio = [podio[1], podio[0], podio[2]];
+        const clases = ['puesto-2', 'puesto-1', 'puesto-3'];
+        const medallas = ['🥈', '🥇', '🥉'];
+        ordenPodio.forEach((p, idx) => {
+          if (!p) return;
+          const pos = idx === 0 ? 2 : (idx === 1 ? 1 : 3);
           const esMiPuesto = (usuarioActual && p.nombre === usuarioActual);
           const trend = trends[p.nombre] || 'stable';
           let trendSymbol = '➡️';
           let trendClass = 'trend-stable';
-          if (trend === 'up') { trendSymbol = '📈'; trendClass = 'trend-up'; }
-          else if (trend === 'down') { trendSymbol = '📉'; trendClass = 'trend-down'; }
+          if (trend === 'up') { trendSymbol = '📈'; trendClass = 'trend-up'; } else if (trend === 'down') { trendSymbol = '📉'; trendClass = 'trend-down'; }
           const votosCount = votos[p.nombre] || 0;
-          html += `<div class="tarjeta-resto ${esMiPuesto ? 'mi-puesto' : ''}" style="${esMiPuesto ? 'border: 2px solid #ffd700;' : ''}">`;
-          html += `<span class="pos">${pos}°</span>`;
-          html += `<span class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></span>`;
-          html += `<span class="puntos">${p.puntos} pts</span>`;
-          html += `<span class="stats">A:${p.aciertos} E:${p.exactos}</span>`;
-          html += `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ ${votosCount}</button>`;
+          html += `<div class="puesto ${clases[idx]} ${esMiPuesto ? 'mi-puesto' : ''}">`;
+          html += `<div class="medalla">${medallas[idx]}</div>`;
+          html += `<div class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></div>`;
+          html += `<div class="puntos">${p.puntos} pts</div>`;
+          html += `<div class="estadisticas">Aciertos: ${p.aciertos} · Exactos: ${p.exactos}</div>`;
+          html += `<div class="tooltip-extra">🔹 Efectividad: ${p.aciertos > 0 ? Math.round((p.exactos/p.aciertos)*100) : 0}% · 🔸 Partidos: ${p.aciertos + (p.exactos || 0)}</div>`;
+          if (pos === 1) {
+            html += `<div class="copa">🏆</div>`;
+          }
+          html += `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ Votar <span class="votos-count">(${votosCount})</span></button>`;
           html += `</div>`;
         });
         html += `</div>`;
-      }
 
-      html += `</div>`;
-      container.innerHTML = html;
-
-      container.querySelectorAll('.btn-votar').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const nombre = this.dataset.nombre;
-          if (!nombre) return;
-          let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
-          votos[nombre] = (votos[nombre] || 0) + 1;
-          localStorage.setItem('poll_votos', JSON.stringify(votos));
-          renderizarTabla(participantesActuales);
-        });
-      });
-    }
-
-    // ================================================================
-    // WIDGET EN VIVO
-    // ================================================================
-    function obtenerPartidosEnVivo(todos) {
-      const vivos = todos.filter(p => {
-        const elapsed = p.time_elapsed || '';
-        return elapsed.toLowerCase() === 'live';
-      });
-      vivos.sort((a, b) => Number(a.id) - Number(b.id));
-      return vivos;
-    }
-
-    function renderWidgetEnVivo(partidos) {
-      const contenedor = document.getElementById('widget-en-vivo');
-      if (!contenedor) return;
-      const vivos = obtenerPartidosEnVivo(partidos);
-      if (vivos.length === 0) {
-        contenedor.innerHTML = '<p style="color:var(--texto-sec); font-size:13px; margin:0;">No hay partidos en vivo en este momento.</p>';
-        return;
-      }
-      let html = '';
-      vivos.forEach(p => {
-        const local = traducciones[p.home_team_name_en] || p.home_team_name_en || 'TBD';
-        const visita = traducciones[p.away_team_name_en] || p.away_team_name_en || 'TBD';
-        const golL = p.home_score !== undefined && p.home_score !== null ? p.home_score : '–';
-        const golV = p.away_score !== undefined && p.away_score !== null ? p.away_score : '–';
-        const color = "#0f7a46";
-        const fondo = "linear-gradient(135deg, #ecfdf5, #f0fdf4)";
-        const badge = '<span style="background:#0f7a46;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">● EN VIVO</span>';
-        const banderaLocal = obtenerHtmlConBandera(local);
-        const banderaVisita = obtenerHtmlConBandera(visita);
-        html += `
-          <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 12px; border: 2px solid ${color}; background: ${fondo}; margin-bottom: 10px;">
-            <div style="text-align:right;"><span style="font-weight:700; font-size:15px; color:#0f172a;">${banderaLocal} ${local}</span></div>
-            <div style="text-align:center;">
-              <div style="font-size:28px; font-weight:800; color:${color}; letter-spacing:4px; line-height:1;">${golL} - ${golV}</div>
-              <div style="margin-top:5px;">${badge}</div>
-            </div>
-            <div style="text-align:left;"><span style="font-weight:700; font-size:15px; color:#0f172a;">${banderaVisita} ${visita}</span></div>
-          </div>`;
-      });
-      contenedor.innerHTML = html;
-    }
-
-    async function actualizarWidgetEnVivo() {
-      try {
-        const todos = await obtenerDatosAPI();
-        if (todos && todos.length > 0) renderWidgetEnVivo(todos);
-      } catch (error) {
-        document.getElementById('widget-en-vivo').innerHTML = '<p style="color:#ef4444; font-size:13px; margin:0;">Error al cargar el marcador en vivo.</p>';
-      }
-    }
-    setInterval(actualizarWidgetEnVivo, 30000);
-
-    // ================================================================
-    // CHAT GLOBAL CON GOOGLE SHEETS (CORREGIDO)
-    // ================================================================
-    async function cargarChatGlobal() {
-      const container = document.getElementById('chatMensajes');
-      if (!container) return;
-
-      try {
-        const response = await fetch(`${CHAT_API_URL}?action=get`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-
-        // Si la respuesta tiene un error, mostrarlo
-        if (data.error) {
-          container.innerHTML = `<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">❌ ${data.error}</div>`;
-          return;
+        if (resto.length > 0) {
+          html += `<div class="resto">`;
+          resto.forEach((p, index) => {
+            const pos = index + 4;
+            const esMiPuesto = (usuarioActual && p.nombre === usuarioActual);
+            const trend = trends[p.nombre] || 'stable';
+            let trendSymbol = '➡️';
+            let trendClass = 'trend-stable';
+            if (trend === 'up') { trendSymbol = '📈'; trendClass = 'trend-up'; } else if (trend === 'down') { trendSymbol = '📉'; trendClass = 'trend-down'; }
+            const votosCount = votos[p.nombre] || 0;
+            html += `<div class="tarjeta-resto ${esMiPuesto ? 'mi-puesto' : ''}" style="${esMiPuesto ? 'border: 2px solid #ffd700;' : ''}">`;
+            html += `<span class="pos">${pos}°</span>`;
+            html += `<span class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></span>`;
+            html += `<span class="puntos">${p.puntos} pts</span>`;
+            html += `<span class="stats">A:${p.aciertos} E:${p.exactos}</span>`;
+            html += `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ ${votosCount}</button>`;
+            html += `</div>`;
+          });
+          html += `</div>`;
         }
 
-        // Asegurarse de que sea un array
-        const messages = Array.isArray(data) ? data : [];
+        html += `</div>`;
+        container.innerHTML = html;
 
-        container.innerHTML = '';
-        if (messages.length === 0) {
-          container.innerHTML = '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">💬 Aún no hay mensajes. ¡Sé el primero!</div>';
+        container.querySelectorAll('.btn-votar').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const nombre = this.dataset.nombre;
+            if (!nombre) return;
+            let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
+            votos[nombre] = (votos[nombre] || 0) + 1;
+            localStorage.setItem('poll_votos', JSON.stringify(votos));
+            renderizarTabla(participantesActuales);
+          });
+        });
+      }
+
+      // ================================================================
+      // 5. WIDGET EN VIVO
+      // ================================================================
+      function obtenerPartidosEnVivo(todos) {
+        const vivos = todos.filter(p => {
+          const elapsed = p.time_elapsed || '';
+          return elapsed.toLowerCase() === 'live';
+        });
+        vivos.sort((a, b) => Number(a.id) - Number(b.id));
+        return vivos;
+      }
+
+      function renderWidgetEnVivo(partidos) {
+        const contenedor = document.getElementById('widget-en-vivo');
+        if (!contenedor) return;
+        const vivos = obtenerPartidosEnVivo(partidos);
+        if (vivos.length === 0) {
+          contenedor.innerHTML = '<p style="color:var(--texto-sec); font-size:13px; margin:0;">No hay partidos en vivo en este momento.</p>';
           return;
         }
-
-        // Mostrar los últimos 50 mensajes
-        const ultimos = messages.slice(-50);
-        ultimos.forEach(msg => {
-          const div = document.createElement('div');
-          div.className = 'chat-mensaje';
-          const hora = msg.timestamp ? msg.timestamp.substring(11, 16) : '';
-          div.innerHTML = `
-            <span class="chat-usuario">${escapeHtml(msg.usuario)}</span>
-            ${escapeHtml(msg.texto)}
-            <span class="chat-hora">${hora}</span>
-          `;
-          container.appendChild(div);
+        let html = '';
+        vivos.forEach(p => {
+          const local = traducciones[p.home_team_name_en] || p.home_team_name_en || 'TBD';
+          const visita = traducciones[p.away_team_name_en] || p.away_team_name_en || 'TBD';
+          const golL = p.home_score !== undefined && p.home_score !== null ? p.home_score : '–';
+          const golV = p.away_score !== undefined && p.away_score !== null ? p.away_score : '–';
+          const color = "#0f7a46";
+          const fondo = "linear-gradient(135deg, #ecfdf5, #f0fdf4)";
+          const badge = '<span style="background:#0f7a46;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">● EN VIVO</span>';
+          const banderaLocal = obtenerHtmlConBandera(local);
+          const banderaVisita = obtenerHtmlConBandera(visita);
+          html += `
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 12px; border: 2px solid ${color}; background: ${fondo}; margin-bottom: 10px;">
+              <div style="text-align:right;"><span style="font-weight:700; font-size:15px; color:#0f172a;">${banderaLocal} ${local}</span></div>
+              <div style="text-align:center;">
+                <div style="font-size:28px; font-weight:800; color:${color}; letter-spacing:4px; line-height:1;">${golL} - ${golV}</div>
+                <div style="margin-top:5px;">${badge}</div>
+              </div>
+              <div style="text-align:left;"><span style="font-weight:700; font-size:15px; color:#0f172a;">${banderaVisita} ${visita}</span></div>
+            </div>`;
         });
-        container.scrollTop = container.scrollHeight;
-      } catch (error) {
-        console.error('Error al cargar mensajes:', error);
-        container.innerHTML = `
-          <div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">
-            ❌ Error al cargar el chat.<br>
-            <span style="font-size:0.7rem; color:var(--texto-sec);">Verifica que la API esté desplegada y accesible.</span>
-          </div>
-        `;
+        contenedor.innerHTML = html;
       }
-    }
 
-    async function enviarMensajeGlobal(texto) {
-      const usuario = localStorage.getItem(STORAGE_KEY) || 'Anónimo';
-      if (!texto.trim()) return;
+      async function actualizarWidgetEnVivo() {
+        try {
+          const todos = await obtenerDatosAPI();
+          if (todos && todos.length > 0) renderWidgetEnVivo(todos);
+        } catch (error) {
+          document.getElementById('widget-en-vivo').innerHTML = '<p style="color:#ef4444; font-size:13px; margin:0;">Error al cargar el marcador en vivo.</p>';
+        }
+      }
+      setInterval(actualizarWidgetEnVivo, 30000);
 
-      const input = document.getElementById('chatInput');
-      const btn = document.getElementById('chatEnviar');
+      // ================================================================
+      // 6. CHAT GLOBAL (con emojis y corrección)
+      // ================================================================
+      async function cargarChatGlobal() {
+        const container = document.getElementById('chatMensajes');
+        if (!container) return;
 
-      // Deshabilitar temporalmente para evitar spam
-      input.disabled = true;
-      btn.disabled = true;
+        try {
+          const response = await fetch(`${CHAT_API_URL}?action=get`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
 
-      try {
-        const response = await fetch(CHAT_API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ usuario, texto: texto.trim() })
-        });
+          container.innerHTML = '';
+          if (!data || data.length === 0 || (data.error)) {
+            container.innerHTML = '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
+            return;
+          }
 
-        input.value = '';
-        // Recargar mensajes después de un pequeño delay
-        setTimeout(() => {
-          cargarChatGlobal();
-          input.disabled = false;
+          // Asegurar que data es un array
+          const messages = Array.isArray(data) ? data : [];
+          const ultimos = messages.slice(-30);
+          if (ultimos.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
+            return;
+          }
+
+          ultimos.forEach(msg => {
+            if (!msg.usuario && !msg.texto) return;
+            const div = document.createElement('div');
+            div.className = 'chat-mensaje';
+            const hora = msg.timestamp ? msg.timestamp.substring(11, 16) : '';
+            div.innerHTML = `<span class="chat-usuario">${escapeHtml(msg.usuario)}</span> ${escapeHtml(msg.texto)} <span class="chat-hora">${hora}</span>`;
+            container.appendChild(div);
+          });
+          container.scrollTop = container.scrollHeight;
+        } catch (error) {
+          console.error('Error al cargar mensajes:', error);
+          container.innerHTML = '<div style="text-align:center; color:#ef4444; font-size:0.8rem; padding:10px;">Error al cargar el chat. Reintentando...</div>';
+        }
+      }
+
+      async function enviarMensajeGlobal(texto) {
+        const usuario = localStorage.getItem(STORAGE_KEY) || 'Anónimo';
+        if (!texto.trim()) return;
+
+        const input = document.getElementById('chatInput');
+        const btn = document.getElementById('chatEnviar');
+        btn.disabled = true;
+        input.disabled = true;
+
+        try {
+          await fetch(CHAT_API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usuario, texto: texto.trim() })
+          });
+          input.value = '';
+          setTimeout(cargarChatGlobal, 500);
+        } catch (error) {
+          console.error('Error al enviar mensaje:', error);
+          alert('No se pudo enviar el mensaje. Intenta de nuevo.');
+        } finally {
           btn.disabled = false;
+          input.disabled = false;
           input.focus();
-        }, 300);
-      } catch (error) {
-        console.error('Error al enviar mensaje:', error);
-        alert('❌ No se pudo enviar el mensaje. Intenta de nuevo.');
-        input.disabled = false;
-        btn.disabled = false;
-      }
-    }
-
-    function configurarChatGlobal() {
-      const input = document.getElementById('chatInput');
-      const btn = document.getElementById('chatEnviar');
-      const toggle = document.getElementById('chatToggle');
-      const mensajesDiv = document.getElementById('chatMensajes');
-      const widget = document.getElementById('chatWidget');
-
-      // Evento de envío
-      btn.addEventListener('click', () => enviarMensajeGlobal(input.value));
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') enviarMensajeGlobal(input.value);
-      });
-
-      // Toggle del chat
-      let chatVisible = true;
-      toggle.addEventListener('click', () => {
-        chatVisible = !chatVisible;
-        mensajesDiv.style.display = chatVisible ? 'flex' : 'none';
-        document.querySelector('.emoji-panel').style.display = chatVisible ? 'flex' : 'none';
-        document.querySelector('.chat-input-area').style.display = chatVisible ? 'flex' : 'none';
-        toggle.querySelector('span:last-child').textContent = chatVisible ? '▼' : '▲';
-      });
-
-      // Selector de emojis
-      document.querySelectorAll('.emoji-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const emoji = this.dataset.emoji;
-          const input = document.getElementById('chatInput');
-          const start = input.selectionStart;
-          const end = input.selectionEnd;
-          const text = input.value;
-          input.value = text.substring(0, start) + emoji + text.substring(end);
-          input.focus();
-          const newPos = start + emoji.length;
-          input.setSelectionRange(newPos, newPos);
-        });
-      });
-
-      // Cargar mensajes al iniciar
-      cargarChatGlobal();
-
-      // Auto-refresh cada 4 segundos
-      setInterval(cargarChatGlobal, 4000);
-    }
-
-    // ================================================================
-    // CONTADOR REGRESIVO
-    // ================================================================
-    function actualizarContador() {
-      const ahora = Date.now();
-      let diff = FINAL_DATE - ahora;
-      if (diff < 0) diff = 0;
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const segundos = Math.floor((diff % (1000 * 60)) / 1000);
-      document.getElementById('cd-dias').textContent = String(dias).padStart(2, '0');
-      document.getElementById('cd-horas').textContent = String(horas).padStart(2, '0');
-      document.getElementById('cd-minutos').textContent = String(minutos).padStart(2, '0');
-      document.getElementById('cd-segundos').textContent = String(segundos).padStart(2, '0');
-    }
-    setInterval(actualizarContador, 1000);
-    actualizarContador();
-
-    // ================================================================
-    // MODO NOCHE
-    // ================================================================
-    function toggleNightMode() {
-      document.body.classList.toggle('night-mode');
-      const btn = document.getElementById('btnNightMode');
-      if (document.body.classList.contains('night-mode')) {
-        btn.textContent = '☀️ Modo Día';
-      } else {
-        btn.textContent = '🌙 Modo Noche Final';
-      }
-    }
-    document.getElementById('btnNightMode').addEventListener('click', toggleNightMode);
-
-    // ================================================================
-    // APUESTAS
-    // ================================================================
-    const SHEET_APUESTAS = "Apuestas_16avos";
-    const APUESTAS_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_APUESTAS)}`;
-
-    const columnasDeseadas = [
-      { nombre: 'Participante', posibles: ['participante', 'jugador', 'nombre'] },
-      { nombre: 'Ronda', posibles: ['ronda', 'round'] },
-      { nombre: 'Local', posibles: ['local', 'equipo local'] },
-      { nombre: 'Visita', posibles: ['visita', 'equipo visita'] },
-      { nombre: 'GL', posibles: ['goles local', 'gol local', 'local.1'] },
-      { nombre: 'GV', posibles: ['goles visita', 'gol visita', 'visita.1'] },
-      { nombre: 'Multi', posibles: ['multi', 'multiplicador'] }
-    ];
-
-    function detectarColumnas(data) {
-      if (!data || data.length === 0) return {};
-      const headers = Object.keys(data[0]);
-      const mapeo = {};
-      columnasDeseadas.forEach(col => {
-        const encontrado = headers.find(h =>
-          col.posibles.some(p => h.toLowerCase().includes(p.toLowerCase()))
-        );
-        mapeo[col.nombre] = encontrado || null;
-      });
-      return mapeo;
-    }
-
-    async function cargarApuestas() {
-      const container = document.getElementById('tablaApuestasContainer');
-      const estado = document.getElementById('estadoFiltradoApuestas');
-      if (!container) return;
-      container.innerHTML = '<p style="color:var(--texto-sec);">Cargando apuestas...</p>';
-      estado.textContent = '';
-      estado.className = 'estado';
-      try {
-        const response = await fetch(APUESTAS_URL, { cache: 'no-store', headers: { 'Accept': 'text/csv, application/csv, text/plain' } });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const csvText = await response.text();
-        if (csvText.trim().startsWith('<!DOCTYPE') || csvText.trim().startsWith('<html')) {
-          throw new Error(`La hoja "${SHEET_APUESTAS}" no es pública o no existe.`);
         }
-        const data = parseCSV(csvText);
-        if (!data || data.length === 0) throw new Error('No se encontraron datos en la hoja.');
-        datosApuestas = data;
-        const mapeo = detectarColumnas(data);
-        window._mapeoApuestas = mapeo;
-        llenarFiltros(data, mapeo);
-        renderizarTablaApuestas(data, null, mapeo);
-        estado.textContent = `✅ ${data.length} apuestas cargadas.`;
-        estado.className = 'estado exito';
-        configurarFiltrosApuestas();
-      } catch (error) {
-        container.innerHTML = `<p style="color:#ef4444;">Error al cargar apuestas: ${error.message}</p>`;
-        estado.textContent = `❌ Error: ${error.message}`;
-        estado.className = 'estado error';
       }
-    }
 
-    function llenarFiltros(data, mapeo) {
-      const colPart = mapeo['Participante'];
-      const participantes = [...new Set(data.map(row => row[colPart] || '').filter(Boolean))].sort();
-      const selectPart = document.getElementById('filtroParticipanteApuestas');
-      if (selectPart) {
-        selectPart.innerHTML = '<option value="todos">Todos los participantes</option>';
-        participantes.forEach(p => {
-          const opt = document.createElement('option');
-          opt.value = p;
-          opt.textContent = p;
-          selectPart.appendChild(opt);
-        });
-      }
-      const colRonda = mapeo['Ronda'];
-      const rondas = [...new Set(data.map(row => row[colRonda] || '').filter(Boolean))].sort();
-      const selectRonda = document.getElementById('filtroRondaApuestas');
-      if (selectRonda) {
-        selectRonda.innerHTML = '<option value="todos">Todas las rondas</option>';
-        rondas.forEach(r => {
-          const opt = document.createElement('option');
-          opt.value = r;
-          opt.textContent = r;
-          selectRonda.appendChild(opt);
-        });
-      }
-      const colLocal = mapeo['Local'];
-      const colVisita = mapeo['Visita'];
-      const partidos = [...new Set(data.map(row => {
-        const l = row[colLocal] || '';
-        const v = row[colVisita] || '';
-        return l && v ? `${l} - ${v}` : '';
-      }).filter(Boolean))].sort();
-      const selectPartido = document.getElementById('filtroPartidoApuestas');
-      if (selectPartido) {
-        selectPartido.innerHTML = '<option value="todos">Todos los partidos</option>';
-        partidos.forEach(p => {
-          const opt = document.createElement('option');
-          opt.value = p;
-          opt.textContent = p;
-          selectPartido.appendChild(opt);
-        });
-      }
-    }
+      function configurarChatGlobal() {
+        const input = document.getElementById('chatInput');
+        const btn = document.getElementById('chatEnviar');
+        const toggle = document.getElementById('chatToggle');
+        const arrow = document.getElementById('chatArrow');
+        const mensajesDiv = document.getElementById('chatMensajes');
+        const inputArea = document.querySelector('.chat-input-area');
+        const emojiBar = document.querySelector('.chat-emoji-bar');
 
-    function renderizarTablaApuestas(data, filtros, mapeo) {
-      const container = document.getElementById('tablaApuestasContainer');
-      if (!container) return;
-      if (!mapeo) mapeo = window._mapeoApuestas || detectarColumnas(data);
-      let datosFiltrados = data;
-      if (filtros) {
-        const texto = filtros.texto || '';
-        const participante = filtros.participante || 'todos';
-        const ronda = filtros.ronda || 'todos';
-        const partido = filtros.partido || 'todos';
+        // Selector de emojis
+        document.querySelectorAll('.emoji-btn').forEach(emojiBtn => {
+          emojiBtn.addEventListener('click', function() {
+            const emoji = this.dataset.emoji;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const text = input.value;
+            input.value = text.substring(0, start) + emoji + text.substring(end);
+            input.focus();
+            const newPos = start + emoji.length;
+            input.setSelectionRange(newPos, newPos);
+          });
+        });
+
+        btn.addEventListener('click', () => enviarMensajeGlobal(input.value));
+        input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') enviarMensajeGlobal(input.value);
+        });
+
+        let chatVisible = true;
+        toggle.addEventListener('click', () => {
+          chatVisible = !chatVisible;
+          mensajesDiv.style.display = chatVisible ? 'flex' : 'none';
+          inputArea.style.display = chatVisible ? 'flex' : 'none';
+          emojiBar.style.display = chatVisible ? 'flex' : 'none';
+          arrow.textContent = chatVisible ? '▼' : '▲';
+          if (chatVisible) {
+            setTimeout(cargarChatGlobal, 200);
+          }
+        });
+
+        cargarChatGlobal();
+        setInterval(cargarChatGlobal, 5000);
+      }
+
+      // ================================================================
+      // 7. CONTADOR REGRESIVO
+      // ================================================================
+      function actualizarContador() {
+        const ahora = Date.now();
+        let diff = FINAL_DATE - ahora;
+        if (diff < 0) diff = 0;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+        document.getElementById('cd-dias').textContent = String(dias).padStart(2, '0');
+        document.getElementById('cd-horas').textContent = String(horas).padStart(2, '0');
+        document.getElementById('cd-minutos').textContent = String(minutos).padStart(2, '0');
+        document.getElementById('cd-segundos').textContent = String(segundos).padStart(2, '0');
+      }
+      setInterval(actualizarContador, 1000);
+      actualizarContador();
+
+      // ================================================================
+      // 8. MODO NOCHE
+      // ================================================================
+      function toggleNightMode() {
+        document.body.classList.toggle('night-mode');
+        const btn = document.getElementById('btnNightMode');
+        if (document.body.classList.contains('night-mode')) {
+          btn.textContent = '☀️ Modo Día';
+        } else {
+          btn.textContent = '🌙 Modo Noche Final';
+        }
+      }
+      document.getElementById('btnNightMode').addEventListener('click', toggleNightMode);
+
+      // ================================================================
+      // 9. APUESTAS
+      // ================================================================
+      const SHEET_APUESTAS = "Apuestas_16avos";
+      const APUESTAS_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_APUESTAS)}`;
+
+      const columnasDeseadas = [
+        { nombre: 'Participante', posibles: ['participante', 'jugador', 'nombre'] },
+        { nombre: 'Ronda', posibles: ['ronda', 'round'] },
+        { nombre: 'Local', posibles: ['local', 'equipo local'] },
+        { nombre: 'Visita', posibles: ['visita', 'equipo visita'] },
+        { nombre: 'GL', posibles: ['goles local', 'gol local', 'local.1'] },
+        { nombre: 'GV', posibles: ['goles visita', 'gol visita', 'visita.1'] },
+        { nombre: 'Multi', posibles: ['multi', 'multiplicador'] }
+      ];
+
+      function detectarColumnas(data) {
+        if (!data || data.length === 0) return {};
+        const headers = Object.keys(data[0]);
+        const mapeo = {};
+        columnasDeseadas.forEach(col => {
+          const encontrado = headers.find(h =>
+            col.posibles.some(p => h.toLowerCase().includes(p.toLowerCase()))
+          );
+          mapeo[col.nombre] = encontrado || null;
+        });
+        return mapeo;
+      }
+
+      async function cargarApuestas() {
+        const container = document.getElementById('tablaApuestasContainer');
+        const estado = document.getElementById('estadoFiltradoApuestas');
+        if (!container) return;
+        container.innerHTML = '<p style="color:var(--texto-sec);">Cargando apuestas...</p>';
+        estado.textContent = '';
+        estado.className = 'estado';
+        try {
+          const response = await fetch(APUESTAS_URL, { cache: 'no-store', headers: { 'Accept': 'text/csv, application/csv, text/plain' } });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const csvText = await response.text();
+          if (csvText.trim().startsWith('<!DOCTYPE') || csvText.trim().startsWith('<html')) {
+            throw new Error(`La hoja "${SHEET_APUESTAS}" no es pública o no existe.`);
+          }
+          const data = parseCSV(csvText);
+          if (!data || data.length === 0) throw new Error('No se encontraron datos en la hoja.');
+          datosApuestas = data;
+          const mapeo = detectarColumnas(data);
+          window._mapeoApuestas = mapeo;
+          llenarFiltros(data, mapeo);
+          renderizarTablaApuestas(data, null, mapeo);
+          estado.textContent = `✅ ${data.length} apuestas cargadas.`;
+          estado.className = 'estado exito';
+          configurarFiltrosApuestas();
+        } catch (error) {
+          container.innerHTML = `<p style="color:#ef4444;">Error al cargar apuestas: ${error.message}</p>`;
+          estado.textContent = `❌ Error: ${error.message}`;
+          estado.className = 'estado error';
+        }
+      }
+
+      function llenarFiltros(data, mapeo) {
         const colPart = mapeo['Participante'];
+        const participantes = [...new Set(data.map(row => row[colPart] || '').filter(Boolean))].sort();
+        const selectPart = document.getElementById('filtroParticipanteApuestas');
+        if (selectPart) {
+          selectPart.innerHTML = '<option value="todos">Todos los participantes</option>';
+          participantes.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p;
+            opt.textContent = p;
+            selectPart.appendChild(opt);
+          });
+        }
         const colRonda = mapeo['Ronda'];
+        const rondas = [...new Set(data.map(row => row[colRonda] || '').filter(Boolean))].sort();
+        const selectRonda = document.getElementById('filtroRondaApuestas');
+        if (selectRonda) {
+          selectRonda.innerHTML = '<option value="todos">Todas las rondas</option>';
+          rondas.forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = r;
+            opt.textContent = r;
+            selectRonda.appendChild(opt);
+          });
+        }
         const colLocal = mapeo['Local'];
         const colVisita = mapeo['Visita'];
-        datosFiltrados = data.filter(row => {
-          const rowText = Object.values(row).join(' ').toLowerCase();
-          const coincideTexto = texto === '' || rowText.includes(texto.toLowerCase());
-          const coincideParticipante = participante === 'todos' || (row[colPart] || '') === participante;
-          const coincideRonda = ronda === 'todos' || (row[colRonda] || '') === ronda;
-          const partidoStr = `${row[colLocal] || ''} - ${row[colVisita] || ''}`;
-          const coincidePartido = partido === 'todos' || partidoStr === partido;
-          return coincideTexto && coincideParticipante && coincideRonda && coincidePartido;
-        });
+        const partidos = [...new Set(data.map(row => {
+          const l = row[colLocal] || '';
+          const v = row[colVisita] || '';
+          return l && v ? `${l} - ${v}` : '';
+        }).filter(Boolean))].sort();
+        const selectPartido = document.getElementById('filtroPartidoApuestas');
+        if (selectPartido) {
+          selectPartido.innerHTML = '<option value="todos">Todos los partidos</option>';
+          partidos.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p;
+            opt.textContent = p;
+            selectPartido.appendChild(opt);
+          });
+        }
       }
-      if (ordenApuestas.columna !== null) {
-        const col = ordenApuestas.columna;
-        const dir = ordenApuestas.direccion;
-        datosFiltrados.sort((a, b) => {
-          let va = a[col] || '';
-          let vb = b[col] || '';
-          const numA = parseFloat(va.replace(',', '.'));
-          const numB = parseFloat(vb.replace(',', '.'));
-          if (!isNaN(numA) && !isNaN(numB)) {
-            return dir === 'asc' ? numA - numB : numB - numA;
-          }
-          va = va.toString().toLowerCase();
-          vb = vb.toString().toLowerCase();
-          return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
-        });
-      }
-      if (datosFiltrados.length === 0) {
-        container.innerHTML = '<p style="padding:20px; text-align:center; color:var(--texto-sec);">No hay apuestas que coincidan con los filtros.</p>';
-        return;
-      }
-      const columnasMostrar = columnasDeseadas.map(c => c.nombre);
-      let html = `<table class="tabla" id="tablaApuestasDinamica"><thead><tr>`;
-      columnasMostrar.forEach(nombre => {
-        const real = mapeo[nombre];
-        const claseOrden = (ordenApuestas.columna === real) ? (ordenApuestas.direccion === 'asc' ? 'orden-activo' : 'orden-activo orden-desc') : '';
-        html += `<th data-col="${real}" class="${claseOrden}">${nombre}</th>`;
-      });
-      html += `</tr></thead><tbody>`;
-      datosFiltrados.forEach(row => {
-        html += `<tr>`;
+
+      function renderizarTablaApuestas(data, filtros, mapeo) {
+        const container = document.getElementById('tablaApuestasContainer');
+        if (!container) return;
+        if (!mapeo) mapeo = window._mapeoApuestas || detectarColumnas(data);
+        let datosFiltrados = data;
+        if (filtros) {
+          const texto = filtros.texto || '';
+          const participante = filtros.participante || 'todos';
+          const ronda = filtros.ronda || 'todos';
+          const partido = filtros.partido || 'todos';
+          const colPart = mapeo['Participante'];
+          const colRonda = mapeo['Ronda'];
+          const colLocal = mapeo['Local'];
+          const colVisita = mapeo['Visita'];
+          datosFiltrados = data.filter(row => {
+            const rowText = Object.values(row).join(' ').toLowerCase();
+            const coincideTexto = texto === '' || rowText.includes(texto.toLowerCase());
+            const coincideParticipante = participante === 'todos' || (row[colPart] || '') === participante;
+            const coincideRonda = ronda === 'todos' || (row[colRonda] || '') === ronda;
+            const partidoStr = `${row[colLocal] || ''} - ${row[colVisita] || ''}`;
+            const coincidePartido = partido === 'todos' || partidoStr === partido;
+            return coincideTexto && coincideParticipante && coincideRonda && coincidePartido;
+          });
+        }
+        if (ordenApuestas.columna !== null) {
+          const col = ordenApuestas.columna;
+          const dir = ordenApuestas.direccion;
+          datosFiltrados.sort((a, b) => {
+            let va = a[col] || '';
+            let vb = b[col] || '';
+            const numA = parseFloat(va.replace(',', '.'));
+            const numB = parseFloat(vb.replace(',', '.'));
+            if (!isNaN(numA) && !isNaN(numB)) {
+              return dir === 'asc' ? numA - numB : numB - numA;
+            }
+            va = va.toString().toLowerCase();
+            vb = vb.toString().toLowerCase();
+            return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+          });
+        }
+        if (datosFiltrados.length === 0) {
+          container.innerHTML = '<p style="padding:20px; text-align:center; color:var(--texto-sec);">No hay apuestas que coincidan con los filtros.</p>';
+          return;
+        }
+        const columnasMostrar = columnasDeseadas.map(c => c.nombre);
+        let html = `<table class="tabla" id="tablaApuestasDinamica"><thead><tr>`;
         columnasMostrar.forEach(nombre => {
           const real = mapeo[nombre];
-          let valor = row[real] || '';
-          if (nombre === 'Multi' && valor && !isNaN(parseFloat(valor))) {
-            valor = `X ${valor}`;
-          }
-          html += `<td>${escapeHtml(valor)}</td>`;
+          const claseOrden = (ordenApuestas.columna === real) ? (ordenApuestas.direccion === 'asc' ? 'orden-activo' : 'orden-activo orden-desc') : '';
+          html += `<th data-col="${real}" class="${claseOrden}">${nombre}</th>`;
         });
-        html += `</tr>`;
-      });
-      html += `</tbody></table>`;
-      container.innerHTML = html;
-      const estado = document.getElementById('estadoFiltradoApuestas');
-      if (estado) {
-        estado.textContent = `Mostrando ${datosFiltrados.length} de ${data.length} apuestas`;
-        estado.className = 'estado';
-      }
-      document.querySelectorAll('#tablaApuestasDinamica th').forEach(th => {
-        th.addEventListener('click', function() {
-          const col = this.dataset.col;
-          if (ordenApuestas.columna === col) {
-            ordenApuestas.direccion = ordenApuestas.direccion === 'asc' ? 'desc' : 'asc';
-          } else {
-            ordenApuestas.columna = col;
-            ordenApuestas.direccion = 'asc';
-          }
-          const filtrosActuales = obtenerFiltrosActuales();
-          renderizarTablaApuestas(datosApuestas, filtrosActuales, window._mapeoApuestas);
+        html += `</tr></thead><tbody>`;
+        datosFiltrados.forEach(row => {
+          html += `<tr>`;
+          columnasMostrar.forEach(nombre => {
+            const real = mapeo[nombre];
+            let valor = row[real] || '';
+            if (nombre === 'Multi' && valor && !isNaN(parseFloat(valor))) {
+              valor = `X ${valor}`;
+            }
+            html += `<td>${escapeHtml(valor)}</td>`;
+          });
+          html += `</tr>`;
         });
-      });
-    }
-
-    function obtenerFiltrosActuales() {
-      const texto = document.getElementById('filtroTextoApuestas')?.value || '';
-      const participante = document.getElementById('filtroParticipanteApuestas')?.value || 'todos';
-      const ronda = document.getElementById('filtroRondaApuestas')?.value || 'todos';
-      const partido = document.getElementById('filtroPartidoApuestas')?.value || 'todos';
-      return { texto, participante, ronda, partido };
-    }
-
-    function configurarFiltrosApuestas() {
-      const inputTexto = document.getElementById('filtroTextoApuestas');
-      const selectPart = document.getElementById('filtroParticipanteApuestas');
-      const selectRonda = document.getElementById('filtroRondaApuestas');
-      const selectPartido = document.getElementById('filtroPartidoApuestas');
-      const btnLimpiar = document.getElementById('limpiarFiltrosApuestas');
-      const aplicar = () => {
-        const filtros = obtenerFiltrosActuales();
-        renderizarTablaApuestas(datosApuestas, filtros, window._mapeoApuestas);
-      };
-      inputTexto?.addEventListener('input', aplicar);
-      selectPart?.addEventListener('change', aplicar);
-      selectRonda?.addEventListener('change', aplicar);
-      selectPartido?.addEventListener('change', aplicar);
-      btnLimpiar?.addEventListener('click', () => {
-        if (inputTexto) inputTexto.value = '';
-        if (selectPart) selectPart.value = 'todos';
-        if (selectRonda) selectRonda.value = 'todos';
-        if (selectPartido) selectPartido.value = 'todos';
-        ordenApuestas.columna = null;
-        ordenApuestas.direccion = 'asc';
-        aplicar();
-      });
-    }
-
-    // ================================================================
-    // FLUJO PRINCIPAL
-    // ================================================================
-    async function cargarFixture() {
-      const estadoDiv = document.getElementById('estadoCargaFixture');
-      const container = document.getElementById('bracketContainer');
-      estadoDiv.textContent = '⏳ Cargando datos desde la API...';
-      estadoDiv.className = 'estado-carga';
-      container.innerHTML = '';
-      try {
-        const todos = await obtenerDatosAPI();
-        if (!todos || todos.length === 0) throw new Error('No se recibieron partidos de la API.');
-        const partidosPorTipo = organizarPartidos(todos);
-        const totalKnockouts = Object.values(partidosPorTipo).reduce((sum, arr) => sum + arr.length, 0);
-        estadoDiv.textContent = `✅ ${totalKnockouts} partidos de eliminación directa cargados (hasta cuartos).`;
-        estadoDiv.className = 'estado-carga exito';
-        renderizarBracket(partidosPorTipo);
-      } catch (error) {
-        estadoDiv.textContent = `❌ Error: ${error.message}`;
-        estadoDiv.className = 'estado-carga error';
-        container.innerHTML = `<div style="padding: 20px; text-align: center; color: #991b1b; background: #fee2e2; border-radius: 8px; border: 1px solid #fecaca;">
-          <p style="font-weight: bold; font-size: 1.1rem;">⚠️ No se pudieron cargar los datos</p>
-          <p style="margin-top: 8px;">${error.message}</p>
-          <button onclick="location.reload()" style="margin-top: 16px; border: 1px solid #991b1b; background: white; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🔄 Intentar de nuevo</button>
-        </div>`;
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+        const estado = document.getElementById('estadoFiltradoApuestas');
+        if (estado) {
+          estado.textContent = `Mostrando ${datosFiltrados.length} de ${data.length} apuestas`;
+          estado.className = 'estado';
+        }
+        document.querySelectorAll('#tablaApuestasDinamica th').forEach(th => {
+          th.addEventListener('click', function() {
+            const col = this.dataset.col;
+            if (ordenApuestas.columna === col) {
+              ordenApuestas.direccion = ordenApuestas.direccion === 'asc' ? 'desc' : 'asc';
+            } else {
+              ordenApuestas.columna = col;
+              ordenApuestas.direccion = 'asc';
+            }
+            const filtrosActuales = obtenerFiltrosActuales();
+            renderizarTablaApuestas(datosApuestas, filtrosActuales, window._mapeoApuestas);
+          });
+        });
       }
-    }
 
-    async function cargarTabla() {
-      const estadoDiv = document.getElementById('estadoCargaTabla');
-      const container = document.getElementById('tablaContainer');
-      estadoDiv.textContent = `⏳ Cargando datos...`;
-      estadoDiv.className = 'estado-carga';
-      container.innerHTML = '';
-      try {
-        const csv = await obtenerDatosTabla();
-        const data = parseCSV(csv);
-        if (!data || data.length === 0) throw new Error(`No se encontraron datos.`);
-        const participantes = ordenarParticipantes(data);
-        participantesActuales = participantes;
-        estadoDiv.textContent = `✅ ${participantes.length} participantes cargados (mostrando top 6).`;
-        estadoDiv.className = 'estado-carga exito';
-        renderizarTabla(participantes);
-      } catch (error) {
-        estadoDiv.textContent = `❌ Error: ${error.message}`;
-        estadoDiv.className = 'estado-carga error';
-        container.innerHTML = `<div style="padding: 20px; text-align: center; color: #991b1b; background: #fee2e2; border-radius: 8px; border: 1px solid #fecaca;">
-          <p style="font-weight: bold; font-size: 1.1rem;">⚠️ No se pudo cargar la tabla</p>
-          <p style="margin-top: 8px;">${error.message}</p>
-        </div>`;
+      function obtenerFiltrosActuales() {
+        const texto = document.getElementById('filtroTextoApuestas')?.value || '';
+        const participante = document.getElementById('filtroParticipanteApuestas')?.value || 'todos';
+        const ronda = document.getElementById('filtroRondaApuestas')?.value || 'todos';
+        const partido = document.getElementById('filtroPartidoApuestas')?.value || 'todos';
+        return { texto, participante, ronda, partido };
       }
-    }
 
-    async function inicializarTodo() {
-      await Promise.all([cargarFixture(), cargarTabla()]);
-      await actualizarWidgetEnVivo();
-      await cargarApuestas();
-    }
-
-    // ================================================================
-    // INICIO
-    // ================================================================
-    iniciarSistemaUsuario();
-    inicializarTodo();
-    document.getElementById('btnRecargar').addEventListener('click', inicializarTodo);
-    configurarChatGlobal();
-
-    // Actualizar tabla cada 20 segundos
-    setInterval(() => {
-      if (document.getElementById('bloque-tabla').offsetParent !== null) {
-        cargarTabla();
+      function configurarFiltrosApuestas() {
+        const inputTexto = document.getElementById('filtroTextoApuestas');
+        const selectPart = document.getElementById('filtroParticipanteApuestas');
+        const selectRonda = document.getElementById('filtroRondaApuestas');
+        const selectPartido = document.getElementById('filtroPartidoApuestas');
+        const btnLimpiar = document.getElementById('limpiarFiltrosApuestas');
+        const aplicar = () => {
+          const filtros = obtenerFiltrosActuales();
+          renderizarTablaApuestas(datosApuestas, filtros, window._mapeoApuestas);
+        };
+        inputTexto?.addEventListener('input', aplicar);
+        selectPart?.addEventListener('change', aplicar);
+        selectRonda?.addEventListener('change', aplicar);
+        selectPartido?.addEventListener('change', aplicar);
+        btnLimpiar?.addEventListener('click', () => {
+          if (inputTexto) inputTexto.value = '';
+          if (selectPart) selectPart.value = 'todos';
+          if (selectRonda) selectRonda.value = 'todos';
+          if (selectPartido) selectPartido.value = 'todos';
+          ordenApuestas.columna = null;
+          ordenApuestas.direccion = 'asc';
+          aplicar();
+        });
       }
-    }, 20000);
 
-  })();
-</script>
+      // ================================================================
+      // 10. FLUJO PRINCIPAL
+      // ================================================================
+      async function cargarFixture() {
+        const estadoDiv = document.getElementById('estadoCargaFixture');
+        const container = document.getElementById('bracketContainer');
+        estadoDiv.textContent = '⏳ Cargando datos desde la API...';
+        estadoDiv.className = 'estado-carga';
+        container.innerHTML = '';
+        try {
+          const todos = await obtenerDatosAPI();
+          if (!todos || todos.length === 0) throw new Error('No se recibieron partidos de la API.');
+          const partidosPorTipo = organizarPartidos(todos);
+          const totalKnockouts = Object.values(partidosPorTipo).reduce((sum, arr) => sum + arr.length, 0);
+          estadoDiv.textContent = `✅ ${totalKnockouts} partidos de eliminación directa cargados (hasta cuartos).`;
+          estadoDiv.className = 'estado-carga exito';
+          renderizarBracket(partidosPorTipo);
+        } catch (error) {
+          estadoDiv.textContent = `❌ Error: ${error.message}`;
+          estadoDiv.className = 'estado-carga error';
+          container.innerHTML = `<div style="padding: 20px; text-align: center; color: #991b1b; background: #fee2e2; border-radius: 8px; border: 1px solid #fecaca;">
+            <p style="font-weight: bold; font-size: 1.1rem;">⚠️ No se pudieron cargar los datos</p>
+            <p style="margin-top: 8px;">${error.message}</p>
+            <button onclick="location.reload()" style="margin-top: 16px; border: 1px solid #991b1b; background: white; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🔄 Intentar de nuevo</button>
+          </div>`;
+        }
+      }
+
+      async function cargarTabla() {
+        const estadoDiv = document.getElementById('estadoCargaTabla');
+        const container = document.getElementById('tablaContainer');
+        estadoDiv.textContent = `⏳ Cargando datos...`;
+        estadoDiv.className = 'estado-carga';
+        container.innerHTML = '';
+        try {
+          const csv = await obtenerDatosTabla();
+          const data = parseCSV(csv);
+          if (!data || data.length === 0) throw new Error(`No se encontraron datos.`);
+          const participantes = ordenarParticipantes(data);
+          participantesActuales = participantes;
+          estadoDiv.textContent = `✅ ${participantes.length} participantes cargados (mostrando top 6).`;
+          estadoDiv.className = 'estado-carga exito';
+          renderizarTabla(participantes);
+        } catch (error) {
+          estadoDiv.textContent = `❌ Error: ${error.message}`;
+          estadoDiv.className = 'estado-carga error';
+          container.innerHTML = `<div style="padding: 20px; text-align: center; color: #991b1b; background: #fee2e2; border-radius: 8px; border: 1px solid #fecaca;">
+            <p style="font-weight: bold; font-size: 1.1rem;">⚠️ No se pudo cargar la tabla</p>
+            <p style="margin-top: 8px;">${error.message}</p>
+          </div>`;
+        }
+      }
+
+      async function inicializarTodo() {
+        await Promise.all([cargarFixture(), cargarTabla()]);
+        await actualizarWidgetEnVivo();
+        await cargarApuestas();
+      }
+
+      // ================================================================
+      // 11. INICIO
+      // ================================================================
+      iniciarSistemaUsuario();
+      inicializarTodo();
+      document.getElementById('btnRecargar').addEventListener('click', inicializarTodo);
+      configurarChatGlobal();
+
+      setInterval(() => {
+        if (document.getElementById('bloque-tabla').offsetParent !== null) {
+          cargarTabla();
+        }
+      }, 20000);
+
+    })();
+  </script>
 </body>
 </html>
