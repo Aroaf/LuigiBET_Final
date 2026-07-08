@@ -1266,7 +1266,7 @@
       }
 
       // ================================================================
-      // 3. FIXTURE
+      // 3. FIXTURE - MODIFICADO: desde cuartos hasta final y tercer lugar
       // ================================================================
       const API_URL = "https://worldcup26.ir/get/games";
 
@@ -1282,14 +1282,15 @@
       }
 
       function organizarPartidos(todos) {
-        const tiposKnockout = ['r32', 'r16', 'qf'];
+        // Tipos de interés: cuartos (qf), semifinales (sf), final (f) y tercer lugar (3rd)
+        const tiposKnockout = ['qf', 'sf', 'f', '3rd'];
         const knockouts = todos.filter(p => tiposKnockout.includes(p.type));
         const porTipo = {};
         knockouts.forEach(p => {
           if (!porTipo[p.type]) porTipo[p.type] = [];
           porTipo[p.type].push(p);
         });
-        const ordenTipos = ['r32', 'r16', 'qf'];
+        const ordenTipos = ['qf', 'sf', 'f', '3rd'];
         const resultado = {};
         ordenTipos.forEach(tipo => {
           if (porTipo[tipo]) {
@@ -1306,8 +1307,8 @@
         const container = document.getElementById('bracketContainer');
         if (!container) return;
         container.innerHTML = '';
-        const titulos = { 'r32': '16avos', 'r16': 'Octavos', 'qf': 'Cuartos' };
-        const tipos = ['r32', 'r16', 'qf'];
+        const titulos = { 'qf': 'Cuartos', 'sf': 'Semifinales', 'f': 'Final', '3rd': 'Tercer lugar' };
+        const tipos = ['qf', 'sf', 'f', '3rd'];
         tipos.forEach((tipo) => {
           const partidos = partidosPorTipo[tipo] || [];
           const columna = document.createElement('div');
@@ -1337,19 +1338,36 @@
             const golesV = (p.away_score !== undefined && p.away_score !== null && p.away_score !== '') ? p.away_score :
               '–';
             let ganador = null;
+            let penales = false;
             if (p.finished === 'TRUE' || p.finished === true) {
               const numL = Number(golesL);
               const numV = Number(golesV);
-              if (!isNaN(numL) && !isNaN(numV) && numL !== numV) {
-                ganador = numL > numV ? 'local' : 'visita';
+              if (!isNaN(numL) && !isNaN(numV)) {
+                if (numL !== numV) {
+                  ganador = numL > numV ? 'local' : 'visita';
+                } else {
+                  // Revisar penales
+                  const penL = p.home_penalty_score !== undefined && p.home_penalty_score !== null ? Number(p.home_penalty_score) : null;
+                  const penV = p.away_penalty_score !== undefined && p.away_penalty_score !== null ? Number(p.away_penalty_score) : null;
+                  if (penL !== null && penV !== null && penL !== penV) {
+                    ganador = penL > penV ? 'local' : 'visita';
+                    penales = true;
+                  }
+                }
               }
             }
             const esGanadorLocal = ganador === 'local';
             const esGanadorVisita = ganador === 'visita';
+
             const header = document.createElement('div');
             header.className = 'partido-header';
-            header.textContent = `M${p.id}`;
+            if (penales) {
+              header.textContent = `M${p.id} ⚽ Penales`;
+            } else {
+              header.textContent = `M${p.id}`;
+            }
             div.appendChild(header);
+
             const eqLocal = document.createElement('div');
             eqLocal.className = 'equipo';
             const nombreLocal = document.createElement('span');
@@ -1358,10 +1376,16 @@
             nombreLocal.innerHTML = `${banderaHtmlLocal} ${local}`;
             const resLocal = document.createElement('span');
             resLocal.className = `equipo-resultado ${esGanadorLocal ? 'ganador' : ''}`;
-            resLocal.textContent = golesL;
+            // Mostrar marcador y penales si corresponde
+            if (penales) {
+              resLocal.textContent = `${golesL} (${p.home_penalty_score !== undefined && p.home_penalty_score !== null ? p.home_penalty_score : '?'})`;
+            } else {
+              resLocal.textContent = golesL;
+            }
             eqLocal.appendChild(nombreLocal);
             eqLocal.appendChild(resLocal);
             div.appendChild(eqLocal);
+
             const eqVisita = document.createElement('div');
             eqVisita.className = 'equipo';
             const nombreVisita = document.createElement('span');
@@ -1370,14 +1394,21 @@
             nombreVisita.innerHTML = `${banderaHtmlVisita} ${visita}`;
             const resVisita = document.createElement('span');
             resVisita.className = `equipo-resultado ${esGanadorVisita ? 'ganador' : ''}`;
-            resVisita.textContent = golesV;
+            if (penales) {
+              resVisita.textContent = `${golesV} (${p.away_penalty_score !== undefined && p.away_penalty_score !== null ? p.away_penalty_score : '?'})`;
+            } else {
+              resVisita.textContent = golesV;
+            }
             eqVisita.appendChild(nombreVisita);
             eqVisita.appendChild(resVisita);
             div.appendChild(eqVisita);
+
             columna.appendChild(div);
           });
           container.appendChild(columna);
         });
+
+        // Ajuste de ancho
         requestAnimationFrame(() => {
           const columnas = container.querySelectorAll('.ronda');
           columnas.forEach(columna => {
@@ -2054,7 +2085,7 @@
           if (!todos || todos.length === 0) throw new Error('No se recibieron partidos de la API.');
           const partidosPorTipo = organizarPartidos(todos);
           const totalKnockouts = Object.values(partidosPorTipo).reduce((sum, arr) => sum + arr.length, 0);
-          estadoDiv.textContent = `✅ ${totalKnockouts} partidos de eliminación directa cargados (hasta cuartos).`;
+          estadoDiv.textContent = `✅ ${totalKnockouts} partidos de eliminación directa cargados (cuartos, semifinales, final y tercer lugar).`;
           estadoDiv.className = 'estado-carga exito';
           renderizarBracket(partidosPorTipo);
         } catch (error) {
