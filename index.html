@@ -318,64 +318,113 @@
       }
     }
 
-    /* ===== TABLA DE POSICIONES ===== */
-    .tabla-posiciones {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid #1f2937;
-    }
-    .tabla-posiciones th,
-    .tabla-posiciones td {
-      border: 1px solid #1f2937;
-      text-align: center;
-      font-weight: 700;
-      padding: 8px;
-    }
-    .tabla-posiciones th {
-      background: #f3f4f6;
-      color: #111827;
-      font-style: italic;
-    }
-    .tabla-posiciones td.col-participante {
-      text-align: left;
-      font-weight: 800;
-    }
-    .posicion-celda {
-      color: #111827;
-      width: 48px;
-    }
-    .posicion-celda.clasifica {
-      background: #39d353;
-    }
-    .posicion-celda.descalifica {
-      background: #ff4d4f;
-      color: #ffffff;
-    }
-    .posicion-celda.honorifico {
-      background: #facc15;
-      color: #111827;
-    }
-    .leyenda-puntajes {
+    /* ===== NUEVO ESTILO DEL PODIO ===== */
+    .podio-container {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .leyenda-chip {
-      display: inline-flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
+      padding: 20px 0;
     }
-    .leyenda-color {
-      width: 14px;
-      height: 14px;
-      border: 1px solid #111827;
-      display: inline-block;
+    .podio {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 20px;
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+    .puesto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+      padding: 16px 12px 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      width: 140px;
+      text-align: center;
+      border-top: 6px solid #ccc;
+      transition: transform 0.2s;
+    }
+    .puesto:hover {
+      transform: scale(1.02);
+    }
+    .puesto-1 {
+      height: 180px;
+      border-top-color: #ffd700;
+      background: linear-gradient(180deg, #fff8e0, #fff);
+    }
+    .puesto-2 {
+      height: 150px;
+      border-top-color: #c0c0c0;
+      background: linear-gradient(180deg, #f0f0f0, #fff);
+    }
+    .puesto-3 {
+      height: 140px;
+      border-top-color: #cd7f32;
+      background: linear-gradient(180deg, #f5e6d3, #fff);
+    }
+    .medalla {
+      font-size: 2.2rem;
+      margin-bottom: 4px;
+    }
+    .puesto .nombre {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+    .puesto .puntos {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0b3a8f;
+    }
+    .puesto .estadisticas {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .puesto .copa {
+      font-size: 2.5rem;
+      margin-top: 4px;
+    }
+    .resto {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+      max-width: 700px;
+    }
+    .tarjeta-resto {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #e2e8f0;
+      flex: 1 0 180px;
+      justify-content: space-between;
+    }
+    .tarjeta-resto .pos {
+      font-weight: 700;
+      color: #0b3a8f;
+      font-size: 1.1rem;
+    }
+    .tarjeta-resto .nombre {
+      font-weight: 600;
+    }
+    .tarjeta-resto .puntos {
+      font-weight: 700;
+      color: #0f7a46;
+    }
+
+    /* ===== TABLA DE POSICIONES (ya no se usa tabla, se reemplazó por podio) ===== */
+    /* Se mantienen algunos estilos para compatibilidad, pero ya no se usan */
+    .tabla-posiciones {
+      display: none;
     }
 
     /* ===== USUARIO ACTUAL ===== */
@@ -529,6 +578,22 @@
       .filtros {
         grid-template-columns: 1fr !important;
       }
+      .podio {
+        gap: 10px;
+      }
+      .puesto {
+        width: 100px;
+        padding: 12px 8px 8px;
+      }
+      .puesto-1 { height: 150px; }
+      .puesto-2 { height: 130px; }
+      .puesto-3 { height: 120px; }
+      .medalla { font-size: 1.8rem; }
+      .puesto .nombre { font-size: 0.9rem; }
+      .puesto .puntos { font-size: 1.1rem; }
+      .puesto .estadisticas { font-size: 0.7rem; }
+      .puesto .copa { font-size: 2rem; }
+      .tarjeta-resto { flex: 1 0 140px; font-size: 0.8rem; }
     }
 
     /* Filtros y tabla de apuestas */
@@ -649,9 +714,9 @@
     <div id='widget-en-vivo'><p style='color:#64748b; font-size:13px;'>Cargando...</p></div>
   </div>
 
-  <!-- ===== TABLA DE POSICIONES (SIEMPRE VISIBLE) ===== -->
+  <!-- ===== TABLA DE POSICIONES (NUEVO PODIO) ===== -->
   <div class='bloque' id='bloque-tabla'>
-    <h2>🏅 Tabla de Posiciones (Top 11)</h2>
+    <h2>🏅 Tabla de Posiciones (Top 6)</h2>
     <div id="estadoCargaTabla" class="estado-carga">Cargando datos desde Google Sheets...</div>
     <div id="tablaContainer"></div>
   </div>
@@ -1044,7 +1109,7 @@
     }
 
     // ================================================================
-    // 4. FUNCIONES PARA LA TABLA DE POSICIONES
+    // 4. FUNCIONES PARA LA TABLA DE POSICIONES (NUEVO PODIO)
     // ================================================================
     const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
     const SHEET_NAME = "Tabla dinámica 6";
@@ -1149,39 +1214,67 @@
         if (a.exactos !== b.exactos) return b.exactos - a.exactos;
         return a.inscripcion - b.inscripcion;
       });
-      return participantes.slice(0, 11);
+      return participantes; // devolvemos todos, pero renderizaremos solo los primeros 6
     }
 
+    // ===== NUEVA FUNCIÓN RENDERIZAR TABLA (PODIO) =====
     function renderizarTabla(participantes) {
       const container = document.getElementById('tablaContainer');
       if (!container) return;
       if (!participantes || participantes.length === 0) {
-        container.innerHTML = `<p style="padding: 20px; text-align: center; color: #64748b;">No se encontraron participantes en la hoja "${SHEET_NAME}".</p>`;
+        container.innerHTML = `<p style="padding: 20px; text-align: center; color: #64748b;">No se encontraron participantes.</p>`;
         return;
       }
-      let leyendaHtml = `
-        <div class="leyenda-puntajes">
-          <span class="leyenda-chip"><span class="leyenda-color" style="background:#39d353;"></span> Clasifica a la final 🏆</span>
-          <span class="leyenda-chip"><span class="leyenda-color" style="background:#ff4d4f;"></span> Descalificado 💀</span>
-        </div>
-      `;
-      let html = leyendaHtml;
-      html += `<table class="tabla-posiciones">
-        <thead><tr><th>#</th><th>Participantes</th><th>Puntos</th><th>Aciertos</th><th>Exactos</th><th>Puesto de clasificación</th></tr></thead>
-        <tbody>`;
-      participantes.forEach((p, index) => {
-        const pos = index + 1;
-        let clasePosicion = (pos <= 6) ? 'clasifica' : 'descalifica';
-        html += `<tr>
-          <td class="posicion-celda ${clasePosicion}">${pos}</td>
-          <td class="col-participante">${p.nombre}</td>
-          <td>${p.puntos}</td>
-          <td>${p.aciertos}</td>
-          <td>${p.exactos}</td>
-          <td>${p.inscripcion}</td>
-        </tr>`;
+
+      // Tomar solo los primeros 6
+      const top6 = participantes.slice(0, 6);
+      if (top6.length === 0) {
+        container.innerHTML = `<p style="padding: 20px; text-align: center; color: #64748b;">No hay suficientes participantes.</p>`;
+        return;
+      }
+
+      // Separar podio (3) y resto (3)
+      const podio = top6.slice(0, 3);
+      const resto = top6.slice(3);
+
+      let html = `<div class="podio-container">`;
+      // Podio
+      html += `<div class="podio">`;
+      // Orden: 2do, 1ro, 3ro
+      const ordenPodio = [podio[1], podio[0], podio[2]]; // [2do, 1ro, 3ro]
+      const clases = ['puesto-2', 'puesto-1', 'puesto-3'];
+      const medallas = ['🥈', '🥇', '🥉'];
+      ordenPodio.forEach((p, idx) => {
+        if (!p) return;
+        const pos = idx === 0 ? 2 : (idx === 1 ? 1 : 3);
+        html += `<div class="puesto ${clases[idx]}">`;
+        html += `<div class="medalla">${medallas[idx]}</div>`;
+        html += `<div class="nombre">${p.nombre}</div>`;
+        html += `<div class="puntos">${p.puntos} pts</div>`;
+        html += `<div class="estadisticas">Aciertos: ${p.aciertos} · Exactos: ${p.exactos}</div>`;
+        if (pos === 3) {
+          html += `<div class="copa">🏆</div>`;
+        }
+        html += `</div>`;
       });
-      html += `</tbody></table>`;
+      html += `</div>`; // fin podio
+
+      // Resto (4,5,6)
+      if (resto.length > 0) {
+        html += `<div class="resto">`;
+        resto.forEach((p, index) => {
+          const pos = index + 4;
+          html += `<div class="tarjeta-resto">`;
+          html += `<span class="pos">${pos}°</span>`;
+          html += `<span class="nombre">${p.nombre}</span>`;
+          html += `<span class="puntos">${p.puntos} pts</span>`;
+          html += `<span style="font-size:0.75rem; color:#64748b;">A:${p.aciertos} E:${p.exactos}</span>`;
+          html += `</div>`;
+        });
+        html += `</div>`;
+      }
+
+      html += `</div>`; // fin podio-container
       container.innerHTML = html;
     }
 
@@ -1251,7 +1344,6 @@
     let datosApuestas = [];
     let ordenApuestas = { columna: null, direccion: 'asc' };
 
-    // Definir las columnas que queremos mostrar y sus posibles nombres en la hoja
     const columnasDeseadas = [
       { nombre: 'Participante', posibles: ['participante', 'jugador', 'nombre'] },
       { nombre: 'Ronda', posibles: ['ronda', 'round'] },
@@ -1297,7 +1389,6 @@
         datosApuestas = data;
         const mapeo = detectarColumnas(data);
         window._mapeoApuestas = mapeo;
-        // Llenar filtros
         llenarFiltros(data, mapeo);
         renderizarTablaApuestas(data, null, mapeo);
         estado.textContent = `✅ ${data.length} apuestas cargadas.`;
@@ -1312,7 +1403,6 @@
     }
 
     function llenarFiltros(data, mapeo) {
-      // Participantes
       const colPart = mapeo['Participante'];
       const participantes = [...new Set(data.map(row => row[colPart] || '').filter(Boolean))].sort();
       const selectPart = document.getElementById('filtroParticipanteApuestas');
@@ -1326,7 +1416,6 @@
         });
       }
 
-      // Rondas
       const colRonda = mapeo['Ronda'];
       const rondas = [...new Set(data.map(row => row[colRonda] || '').filter(Boolean))].sort();
       const selectRonda = document.getElementById('filtroRondaApuestas');
@@ -1340,7 +1429,6 @@
         });
       }
 
-      // Partidos (Local - Visita)
       const colLocal = mapeo['Local'];
       const colVisita = mapeo['Visita'];
       const partidos = [...new Set(data.map(row => {
@@ -1365,7 +1453,6 @@
       if (!container) return;
       if (!mapeo) mapeo = window._mapeoApuestas || detectarColumnas(data);
 
-      // Aplicar filtros
       let datosFiltrados = data;
       if (filtros) {
         const texto = filtros.texto || '';
@@ -1389,7 +1476,6 @@
         });
       }
 
-      // Ordenar
       if (ordenApuestas.columna !== null) {
         const col = ordenApuestas.columna;
         const dir = ordenApuestas.direccion;
@@ -1412,7 +1498,6 @@
         return;
       }
 
-      // Construir tabla
       const columnasMostrar = columnasDeseadas.map(c => c.nombre);
       let html = `<table class="tabla" id="tablaApuestasDinamica">
         <thead><tr>`;
@@ -1444,7 +1529,6 @@
         estado.className = 'estado';
       }
 
-      // Eventos de ordenamiento
       document.querySelectorAll('#tablaApuestasDinamica th').forEach(th => {
         th.addEventListener('click', function() {
           const col = this.dataset.col;
@@ -1538,10 +1622,10 @@
         const csv = await obtenerDatosTabla();
         const data = parseCSV(csv);
         if (!data || data.length === 0) throw new Error(`No se encontraron datos.`);
-        const top11 = ordenarParticipantes(data);
-        estadoDiv.textContent = `✅ ${top11.length} participantes cargados.`;
+        const participantes = ordenarParticipantes(data);
+        estadoDiv.textContent = `✅ ${participantes.length} participantes cargados (mostrando top 6).`;
         estadoDiv.className = 'estado-carga exito';
-        renderizarTabla(top11);
+        renderizarTabla(participantes);
       } catch (error) {
         estadoDiv.textContent = `❌ Error: ${error.message}`;
         estadoDiv.className = 'estado-carga error';
