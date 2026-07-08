@@ -18,7 +18,6 @@
       --acento: #caa64b;
       --acento-2: #0047ab;
       --sombra: 0 16px 32px rgba(15, 23, 42, 0.12);
-      --glow-color: rgba(255, 215, 0, 0.6);
       --bg-gradient: linear-gradient(180deg, var(--fondo-cielo) 0%, #96d9ff 26%, var(--fondo-cancha) 26%, var(--fondo-cancha-2) 100%);
       transition: all 0.3s ease;
     }
@@ -36,7 +35,6 @@
       --acento: #fbbf24;
       --acento-2: #3b82f6;
       --sombra: 0 16px 32px rgba(0, 0, 0, 0.6);
-      --glow-color: rgba(251, 191, 36, 0.8);
       --bg-gradient: radial-gradient(ellipse at center, #0f172a 0%, #020617 100%);
     }
 
@@ -146,7 +144,7 @@
       background: var(--linea);
     }
 
-    /* Contador regresivo */
+    /* Contador regresivo - MEJORADO PARA MÓVIL */
     .countdown-container {
       display: flex;
       align-items: center;
@@ -167,22 +165,28 @@
     }
     .countdown-numeros {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       font-weight: 800;
       font-size: 1.2rem;
       font-variant-numeric: tabular-nums;
+      flex-wrap: wrap;
+      align-items: center;
     }
     .countdown-numeros span {
       background: var(--acento-2);
       color: white;
       padding: 2px 8px;
       border-radius: 6px;
-      min-width: 40px;
+      min-width: 36px;
       text-align: center;
     }
     body.night-mode .countdown-numeros span {
       background: #fbbf24;
       color: #0f172a;
+    }
+    .countdown-numeros .sep {
+      font-weight: 700;
+      color: var(--texto-sec);
     }
 
     /* ===== BLOQUES GENERALES ===== */
@@ -321,30 +325,19 @@
       background: linear-gradient(180deg, #2a1f12, var(--tarjeta));
     }
 
-    /* Efecto visual para el usuario actual (brillo y confeti) */
+    /* Efecto visual para el usuario actual (brillo) */
     .puesto.mi-puesto {
-      animation: glowPulse 1.5s ease-in-out infinite, confetiFloat 3s ease-in-out infinite;
+      animation: glowPulse 1.5s ease-in-out infinite;
       border: 2px solid #ffd700;
-      box-shadow: 0 0 30px var(--glow-color);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
     }
     @keyframes glowPulse {
       0%,
       100% {
-        box-shadow: 0 0 20px var(--glow-color);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
       }
       50% {
-        box-shadow: 0 0 50px var(--glow-color), 0 0 80px rgba(255, 215, 0, 0.3);
-      }
-    }
-    @keyframes confetiFloat {
-      0% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-10px) rotate(5deg);
-      }
-      100% {
-        transform: translateY(0px) rotate(0deg);
+        box-shadow: 0 0 50px rgba(255, 215, 0, 0.6), 0 0 80px rgba(255, 215, 0, 0.3);
       }
     }
 
@@ -360,29 +353,6 @@
     .trend-stable {
       color: #94a3b8;
       font-weight: 700;
-    }
-
-    /* Voto popular */
-    .btn-votar {
-      background: var(--acento-2);
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 2px 12px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 4px;
-      transition: 0.2s;
-    }
-    .btn-votar:hover {
-      transform: scale(1.05);
-      filter: brightness(1.2);
-    }
-    .votos-count {
-      font-size: 0.7rem;
-      color: var(--texto-sec);
-      margin-left: 4px;
     }
 
     /* Resto (4-6) */
@@ -514,7 +484,7 @@
       cursor: pointer;
     }
 
-    /* ===== BRACKET (sin cambios relevantes) ===== */
+    /* ===== BRACKET ===== */
     .bracket {
       display: flex;
       gap: 24px;
@@ -836,6 +806,7 @@
         width: 260px;
         right: 10px;
         bottom: 10px;
+        max-height: 400px;
       }
       .filtros {
         grid-template-columns: 1fr !important;
@@ -843,16 +814,47 @@
       .countdown-container {
         flex-direction: column;
         align-items: flex-start;
+        gap: 6px;
+        padding: 8px 12px;
+      }
+      .countdown-numeros {
+        font-size: 0.9rem;
+        gap: 4px;
+      }
+      .countdown-numeros span {
+        min-width: 28px;
+        padding: 1px 4px;
       }
       .cabecera .accion {
         flex-direction: column;
         align-items: stretch;
       }
+      .cabecera h1 {
+        font-size: 1.4rem;
+      }
     }
 
-    /* ===== OCULTAR ELEMENTOS DE TABLA ANTIGUA ===== */
-    .tabla-posiciones {
-      display: none;
+    @media (max-width: 480px) {
+      .countdown-numeros {
+        font-size: 0.75rem;
+        gap: 2px;
+      }
+      .countdown-numeros span {
+        min-width: 22px;
+        padding: 0 3px;
+      }
+      .countdown-titulo {
+        font-size: 0.7rem;
+      }
+      .chat-flotante {
+        width: 220px;
+        right: 5px;
+        bottom: 5px;
+        max-height: 350px;
+      }
+      .chat-mensajes {
+        max-height: 200px;
+      }
     }
 
     /* ===== SECCIÓN RECLAMOS ===== */
@@ -923,14 +925,14 @@
         </div>
       </div>
 
-      <!-- Contador regresivo -->
+      <!-- Contador regresivo (responsive) -->
       <div class="countdown-container" style="margin-top: 12px;">
         <span class="countdown-titulo">⏳ Final del Mundial:</span>
         <div class="countdown-numeros" id="countdownDisplay">
-          <span id="cd-dias">00</span>d
-          <span id="cd-horas">00</span>h
-          <span id="cd-minutos">00</span>m
-          <span id="cd-segundos">00</span>s
+          <span id="cd-dias">00</span><span class="sep">d</span>
+          <span id="cd-horas">00</span><span class="sep">h</span>
+          <span id="cd-minutos">00</span><span class="sep">m</span>
+          <span id="cd-segundos">00</span><span class="sep">s</span>
         </div>
       </div>
 
@@ -993,14 +995,14 @@
     <p class="pie"><strong>Aroa</strong> · Powered by <strong>LuigiBET (c)</strong></p>
   </div>
 
-  <!-- ===== CHAT FLOTANTE ===== -->
+  <!-- ===== CHAT FLOTANTE (minimizado por defecto) ===== -->
   <div class="chat-flotante" id="chatWidget">
     <div class="chat-header" id="chatToggle">
       <span>💬 Chat de la Polla</span>
-      <span style="font-size:0.8rem;">▼</span>
+      <span style="font-size:0.8rem;" id="chatArrow">▲</span>
     </div>
-    <div class="chat-mensajes" id="chatMensajes"></div>
-    <div class="chat-input-area">
+    <div class="chat-mensajes" id="chatMensajes" style="display: none;"></div>
+    <div class="chat-input-area" id="chatInputArea" style="display: none;">
       <input type="text" id="chatInput" placeholder="Escribe un mensaje..." maxlength="100">
       <button id="chatEnviar">Enviar</button>
     </div>
@@ -1398,7 +1400,7 @@
       }
 
       // ================================================================
-      // 4. TABLA DE POSICIONES
+      // 4. TABLA DE POSICIONES (SIN VOTOS)
       // ================================================================
       const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
       const SHEET_NAME = "Tabla dinámica 6";
@@ -1522,7 +1524,6 @@
 
         const currentTop6 = participantes.slice(0, 6).map(p => ({ ...p }));
         const usuarioActual = localStorage.getItem(STORAGE_KEY);
-        let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
 
         const trends = {};
         if (prevTop6.length > 0) {
@@ -1567,8 +1568,6 @@
             trendClass = 'trend-up'; } else if (trend === 'down') { trendSymbol = '📉';
             trendClass = 'trend-down'; }
 
-          const votosCount = votos[p.nombre] || 0;
-
           html += `<div class="puesto ${clases[idx]} ${esMiPuesto ? 'mi-puesto' : ''}">`;
           html += `<div class="medalla">${medallas[idx]}</div>`;
           html += `<div class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></div>`;
@@ -1578,8 +1577,6 @@
           if (pos === 1) {
             html += `<div class="copa">🏆</div>`;
           }
-          html +=
-            `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ Votar <span class="votos-count">(${votosCount})</span></button>`;
           html += `</div>`;
         });
         html += `</div>`;
@@ -1595,14 +1592,11 @@
             if (trend === 'up') { trendSymbol = '📈';
               trendClass = 'trend-up'; } else if (trend === 'down') { trendSymbol = '📉';
               trendClass = 'trend-down'; }
-            const votosCount = votos[p.nombre] || 0;
             html += `<div class="tarjeta-resto ${esMiPuesto ? 'mi-puesto' : ''}" style="${esMiPuesto ? 'border: 2px solid #ffd700;' : ''}">`;
             html += `<span class="pos">${pos}°</span>`;
             html += `<span class="nombre">${p.nombre} <span class="${trendClass}">${trendSymbol}</span></span>`;
             html += `<span class="puntos">${p.puntos} pts</span>`;
             html += `<span class="stats">A:${p.aciertos} E:${p.exactos}</span>`;
-            html +=
-              `<button class="btn-votar" data-nombre="${p.nombre}">🗳️ ${votosCount}</button>`;
             html += `</div>`;
           });
           html += `</div>`;
@@ -1610,18 +1604,6 @@
 
         html += `</div>`;
         container.innerHTML = html;
-
-        container.querySelectorAll('.btn-votar').forEach(btn => {
-          btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const nombre = this.dataset.nombre;
-            if (!nombre) return;
-            let votos = JSON.parse(localStorage.getItem('poll_votos') || '{}');
-            votos[nombre] = (votos[nombre] || 0) + 1;
-            localStorage.setItem('poll_votos', JSON.stringify(votos));
-            renderizarTabla(participantesActuales);
-          });
-        });
       }
 
       // ================================================================
@@ -1680,7 +1662,7 @@
       setInterval(actualizarWidgetEnVivo, 30000);
 
       // ================================================================
-      // 6. CHAT DE LA POLLA (CONECTADO A GOOGLE SHEETS)
+      // 6. CHAT CONECTADO A GOOGLE SHEETS (minimizado por defecto)
       // ================================================================
       async function cargarChat() {
         const container = document.getElementById('chatMensajes');
@@ -1695,7 +1677,6 @@
               '<div style="text-align:center; color:var(--texto-sec); font-size:0.8rem; padding:10px;">Aún no hay mensajes. ¡Sé el primero!</div>';
             return;
           }
-          // Mostrar los últimos 30 mensajes (los más recientes abajo)
           const messagesToShow = messages.slice(-30);
           messagesToShow.forEach(msg => {
             const div = document.createElement('div');
@@ -1725,16 +1706,14 @@
         };
 
         try {
-          const response = await fetch(WEB_APP_URL, {
+          await fetch(WEB_APP_URL, {
             method: 'POST',
-            mode: 'no-cors', // Necesario para evitar problemas de CORS
+            mode: 'no-cors',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(mensajeData),
           });
-          // Con 'no-cors', no podemos leer la respuesta, pero el mensaje se guarda.
-          // Vaciamos el input y recargamos el chat para ver el nuevo mensaje.
           document.getElementById('chatInput').value = '';
           await cargarChat();
         } catch (error) {
@@ -1748,21 +1727,28 @@
         const btn = document.getElementById('chatEnviar');
         const toggle = document.getElementById('chatToggle');
         const mensajesDiv = document.getElementById('chatMensajes');
+        const inputArea = document.getElementById('chatInputArea');
+        const arrow = document.getElementById('chatArrow');
+
+        // Inicialmente minimizado
+        let chatVisible = false;
+        mensajesDiv.style.display = 'none';
+        inputArea.style.display = 'none';
+        arrow.textContent = '▲';
 
         btn.addEventListener('click', () => enviarMensaje(input.value));
         input.addEventListener('keypress', (e) => {
           if (e.key === 'Enter') enviarMensaje(input.value);
         });
 
-        let chatVisible = true;
         toggle.addEventListener('click', () => {
           chatVisible = !chatVisible;
           mensajesDiv.style.display = chatVisible ? 'flex' : 'none';
-          document.querySelector('.chat-input-area').style.display = chatVisible ? 'flex' : 'none';
-          toggle.querySelector('span:last-child').textContent = chatVisible ? '▼' : '▲';
+          inputArea.style.display = chatVisible ? 'flex' : 'none';
+          arrow.textContent = chatVisible ? '▼' : '▲';
+          if (chatVisible) cargarChat();
         });
 
-        // Cargar mensajes al inicio y cada 5 segundos
         cargarChat();
         setInterval(cargarChat, 5000);
       }
