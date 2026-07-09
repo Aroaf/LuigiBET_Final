@@ -1438,7 +1438,7 @@
       // 4. TABLA DE POSICIONES (SIN VOTOS)
       // ================================================================
       const SHEET_ID = "1YQLmxRkQmPnFeADo07s5AfmrnqT_9G10tuATr4v07yM";
-      const SHEET_NAME = "Tabla dinámica 6";
+      const SHEET_NAME = "Tabla dinámica 7";
       const SHEET_URL =
         `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
@@ -2111,7 +2111,7 @@
           if (!data || data.length === 0) throw new Error(`No se encontraron datos.`);
           const participantes = ordenarParticipantes(data);
           participantesActuales = participantes;
-          estadoDiv.textContent = `✅ ${participantes.length} participantes cargados (mostrando top 6).`;
+          estadoDiv.textContent = `✅ ${participantes.length} participantes finalistas.`;
           estadoDiv.className = 'estado-carga exito';
           renderizarTabla(participantes);
         } catch (error) {
